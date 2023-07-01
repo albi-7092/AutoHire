@@ -88,7 +88,6 @@ class _loginState extends State<login> {
                 title: Center(child: Text('Auto Hire')),
                 content: Text(
                   'Invalid Email ID',
-                  // style: TextStyle(color: Colors.red),
                 ),
                 actions: [
                   TextButton(

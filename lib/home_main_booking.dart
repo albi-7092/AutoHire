@@ -39,9 +39,9 @@ class _main_screenState extends State<main_screen> {
           .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
           setState(() {
+            image_url = documentSnapshot.get('image_url');
             Model_no = documentSnapshot.get('model_no');
             engine_cc = documentSnapshot.get('engine_cc');
-            image_url = documentSnapshot.get('image_url');
             pucc = documentSnapshot.get('pucc');
             insurance = documentSnapshot.get('insurance');
             rate = documentSnapshot.get('rate');
@@ -72,116 +72,130 @@ class _main_screenState extends State<main_screen> {
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
-          child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Container(
-                width: double.infinity,
-                height: 260,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: image_url.isEmpty
-                    ? SizedBox(
-                        width: 100,
-                        height: 100,
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            strokeWidth: 4.0,
+          child: image_url.isEmpty
+              ? Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 4.0,
+                  ),
+                )
+              : SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Container(
+                          width: double.infinity,
+                          height: 260,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
                           ),
+                          child: image_url.isEmpty
+                              ? SizedBox(
+                                  width: 100,
+                                  height: 100,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 4.0,
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  width: double.infinity,
+                                  height: 260,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(image_url))),
+                                ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          Model_no,
+                          style: TextStyle(
+                              fontFamily: 'babilon',
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 10, right: 10, top: 05),
+                        child: Text(
+                          'About the Car',
+                          style: TextStyle(
+                              fontFamily: 'babilon',
+                              fontSize: 25,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 20),
+                        child: Row(
+                          children: [
+                            Text('Seat capacity :'),
+                            Text(seat_capacity)
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 30),
+                        child: Row(
+                          children: [Text('Engine CC :'), Text(engine_cc)],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 10, right: 10, top: 30),
+                        child: Row(
+                          children: [
+                            Text('Fuel type :\t'),
+                            Text(fuel),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 30),
+                        child: Row(
+                          children: [Text('pucc valid upto :'), Text(pucc)],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 30),
+                        child: Row(
+                          children: [
+                            Text('Insurance valid upto :'),
+                            Text(insurance)
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 25),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Rate : ',
+                              style: TextStyle(
+                                  fontFamily: 'babilon',
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              rate,
+                              style: TextStyle(
+                                  fontFamily: 'babilon',
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
                         ),
                       )
-                    : Container(
-                        width: double.infinity,
-                        height: 260,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(image_url))),
-                      ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Text(
-                Model_no,
-                style: TextStyle(
-                    fontFamily: 'babilon',
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, top: 05),
-              child: Text(
-                'About the Car',
-                style: TextStyle(
-                    fontFamily: 'babilon',
-                    fontSize: 25,
-                    fontWeight: FontWeight.w500),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 10, right: 10, top: 20),
-              child: Row(
-                children: [Text('Seat capacity :'), Text(seat_capacity)],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 10, right: 10, top: 30),
-              child: Row(
-                children: [Text('Engine CC :'), Text(engine_cc)],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, top: 30),
-              child: Row(
-                children: [
-                  Text('Fuel type :\t'),
-                  Text(fuel),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 10, right: 10, top: 30),
-              child: Row(
-                children: [Text('pucc valid upto :'), Text(pucc)],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 10, right: 10, top: 30),
-              child: Row(
-                children: [Text('Insurance valid upto :'), Text(insurance)],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 10, right: 10, top: 25),
-              child: Row(
-                children: [
-                  Text(
-                    'Rate : ',
-                    style: TextStyle(
-                        fontFamily: 'babilon',
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold),
+                    ],
                   ),
-                  Text(
-                    rate,
-                    style: TextStyle(
-                        fontFamily: 'babilon',
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
-      )),
+                )),
       bottomNavigationBar: BottomAppBar(
         elevation: 0,
         shape: CircularNotchedRectangle(),
