@@ -180,7 +180,7 @@ class _UPIpaymentState extends State<UPIpayment> {
 
                   // If we have data then definitely we will have UpiResponse.
                   // It cannot be null
-                  //payment
+
                   UpiResponse _upiResponse = snapshot.data!;
 
                   // Data in UpiResponse can be null. Check before printing
