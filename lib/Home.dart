@@ -70,42 +70,47 @@ class _HOMEState extends State<HOME> {
                       return InkWell(
                         child: Padding(
                           padding: const EdgeInsets.all(10),
-                          child: Column(
-                            children: [
-                              Container(
-                                width: double.infinity,
-                                height: 200,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: NetworkImage(image_url))),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                          child: image_url.isEmpty
+                              ? CircularProgressIndicator(
+                                  strokeWidth: 4.0,
+                                )
+                              : Column(
                                   children: [
-                                    Text(
-                                      car_name,
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
+                                    Container(
+                                      width: double.infinity,
+                                      height: 200,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(image_url))),
                                     ),
-                                    Text(
-                                      avg_km,
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            car_name,
+                                            style: TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            avg_km,
+                                            style: TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    )
                                   ],
                                 ),
-                              )
-                            ],
-                          ),
                         ),
                         onTap: () {
                           print(providersnap['doc_id']);

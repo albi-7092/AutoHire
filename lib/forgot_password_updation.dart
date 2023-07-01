@@ -1,15 +1,40 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class password extends StatelessWidget {
+class password extends StatefulWidget {
+  @override
+  State<password> createState() => _passwordState();
+}
+
+class _passwordState extends State<password> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  TextEditingController Password = TextEditingController();
+
+  TextEditingController cnfPassword = TextEditingController();
+  String doc_id = '';
+  String user_password = '';
+  String email = '';
+
   final _formkey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    Initial();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
           child: ListView(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 10, top: 30),
+          const Padding(
+            padding: EdgeInsets.only(left: 10, top: 30),
             child: Text(
               'Change Password',
               style: TextStyle(
@@ -18,15 +43,15 @@ class password extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(10),
+          const Padding(
+            padding: EdgeInsets.all(10),
             child: Text(
               "You'll be logged out of all sessions except this one to protect your account if anyone is try to gain access.",
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10, top: 10),
+          const Padding(
+            padding: EdgeInsets.only(left: 10, top: 10),
             child: Text(
                 "Your password must be at least 6 characters and should include a combination of numbers, letters and special characters."),
           ),
@@ -39,6 +64,16 @@ class password extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(10),
                     child: TextFormField(
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'This field is madatory';
+                        } else if (value.length < 8) {
+                          return 'password should be greater than 8 letters';
+                        } else {
+                          return null;
+                        }
+                      },
+                      controller: Password,
                       decoration: InputDecoration(
                           labelText: 'New Password',
                           border: OutlineInputBorder(
@@ -48,6 +83,12 @@ class password extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(10),
                     child: TextFormField(
+                      validator: (value) {
+                        if (value != Password.text) {
+                          return 'password should be same';
+                        }
+                      },
+                      controller: cnfPassword,
                       decoration: InputDecoration(
                           labelText: 'Re-type New Password',
                           border: OutlineInputBorder(
@@ -76,7 +117,11 @@ class password extends StatelessWidget {
                   backgroundColor: Color(0xFF17203A),
                 ),
                 onPressed: () {
-                  if (_formkey.currentState!.validate()) {}
+                  if (_formkey.currentState!.validate()) {
+                    if (user_password.isNotEmpty && email.isNotEmpty) {
+                      Sighncnf();
+                    }
+                  }
                 },
                 child: Text('Submit'),
               ),
@@ -85,5 +130,100 @@ class password extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> Initial() async {
+    final sh = await SharedPreferences.getInstance();
+    final sv = sh.getString('doc_id');
+    doc_id = sv.toString();
+    try {
+      firestore
+          .collection('USER')
+          .doc(doc_id)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        setState(() {
+          user_password = documentSnapshot.get('password');
+          email = documentSnapshot.get('email');
+        });
+      });
+    } on Exception catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> Sighncnf() async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: user_password);
+      changepasswords();
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (ctx) {
+            return AlertDialog(
+              title: Center(child: Text('Auto Hire')),
+              content: Text(
+                '$e',
+                // style: TextStyle(color: Colors.red),
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                    child: Text('OK'))
+              ],
+            );
+          });
+    }
+  }
+
+  Future<void> changepasswords() async {
+    try {
+      final User? user = auth.currentUser;
+      await user!.updatePassword(cnfPassword.text);
+      final DocumentReference document =
+          firestore.collection('USER').doc(doc_id);
+      document.update({'password': cnfPassword.text});
+      showDialog(
+          context: context,
+          builder: (ctx) {
+            return AlertDialog(
+              title: Center(child: Text('Auto Hire')),
+              content: Text(
+                'password updated sucessfully',
+                // style: TextStyle(color: Colors.red),
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                      Navigator.of(ctx).pop();
+                    },
+                    child: Text('OK'))
+              ],
+            );
+          });
+    } on FirebaseAuthException catch (e) {
+      showDialog(
+          context: context,
+          builder: (ctx) {
+            return AlertDialog(
+              title: Center(child: Text('Auto Hire')),
+              content: Text(
+                '$e',
+                // style: TextStyle(color: Colors.red),
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                    child: Text('OK'))
+              ],
+            );
+          });
+    }
   }
 }

@@ -101,7 +101,7 @@ class _registerState extends State<register> {
                           child: Row(
                             children: [
                               Column(
-                                children: [
+                                children: const [
                                   Text(
                                     'Here to Get',
                                     style: TextStyle(
@@ -135,7 +135,7 @@ class _registerState extends State<register> {
                             padding:
                                 EdgeInsets.only(left: 10, right: 10, top: 15),
                             child: TextFormField(
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                   suffixIcon: Icon(Icons.person),
                                   hintText: 'Name *'),
                               controller: Name,
@@ -152,7 +152,7 @@ class _registerState extends State<register> {
                             padding:
                                 EdgeInsets.only(left: 10, right: 10, top: 15),
                             child: TextFormField(
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                   suffixIcon: Icon(Icons.person),
                                   hintText: 'User name*'),
                               controller: user_Name,

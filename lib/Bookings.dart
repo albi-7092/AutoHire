@@ -147,147 +147,160 @@ class _bookingsState extends State<bookings> {
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-            child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              height: 250,
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(20)),
-              child: image_url.isEmpty
-                  ? SizedBox(
-                      width: 100,
-                      height: 100,
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          strokeWidth: 4.0,
+        child: car_book_id.isEmpty
+            ? Container(
+                child: Center(
+                    child: CircularProgressIndicator(
+                  strokeWidth: 4.0,
+                )),
+              )
+            : SingleChildScrollView(
+                child: Column(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: 250,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                    child: image_url.isEmpty
+                        ? SizedBox(
+                            width: 100,
+                            height: 100,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                strokeWidth: 4.0,
+                              ),
+                            ),
+                          )
+                        : Container(
+                            width: double.infinity,
+                            height: 260,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(this.image_url))),
+                          ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          model_no,
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
                         ),
-                      ),
-                    )
-                  : Container(
-                      width: double.infinity,
-                      height: 260,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(this.image_url))),
+                      ],
                     ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    model_no,
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 10, right: 10, top: 20),
+                    child: Row(
+                      children: [
+                        Text(
+                          'About the Car',
+                          style: TextStyle(
+                              fontFamily: 'babilon',
+                              fontSize: 25,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 10, right: 10, top: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Provider name :',
+                        ),
+                        Text(
+                          provider,
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 10, right: 10, top: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'fuel type',
+                          // style: TextStyle(
+                          //     fontFamily: 'Montserrat',
+                          //     fontSize: 18,
+                          //     fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          fuel,
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10, top: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Text('Seat capacity :'), Text(seat_capacity)],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10, top: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Text('Engine CC :'), Text(engine_cc)],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10, top: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Text('pucc valid upto :'), Text(pucc)],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10, top: 30),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('insurance valid upto :'),
+                        Text(insurance)
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10, top: 25),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Payment Status :\t',
+                          style: TextStyle(
+                              fontFamily: 'babilon',
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          status,
+                          style: TextStyle(
+                              fontFamily: 'babilon',
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
                   ),
                 ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
-              child: Row(
-                children: [
-                  Text(
-                    'About the Car',
-                    style: TextStyle(
-                        fontFamily: 'babilon',
-                        fontSize: 25,
-                        fontWeight: FontWeight.w700),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Provider name :',
-                  ),
-                  Text(
-                    provider,
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'fuel type',
-                    // style: TextStyle(
-                    //     fontFamily: 'Montserrat',
-                    //     fontSize: 18,
-                    //     fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    fuel,
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 10, right: 10, top: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text('Seat capacity :'), Text(seat_capacity)],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 10, right: 10, top: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text('Engine CC :'), Text(engine_cc)],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 10, right: 10, top: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text('pucc valid upto :'), Text(pucc)],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 10, right: 10, top: 30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text('insurance valid upto :'), Text(insurance)],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 10, right: 10, top: 25),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Payment Status :\t',
-                    style: TextStyle(
-                        fontFamily: 'babilon',
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    status,
-                    style: TextStyle(
-                        fontFamily: 'babilon',
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-            ),
-          ],
-        )),
+              )),
       )),
       bottomNavigationBar: BottomAppBar(
         elevation: 0,

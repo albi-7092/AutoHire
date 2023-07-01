@@ -83,6 +83,10 @@ class passcode_verification extends StatelessWidget {
                           .pushReplacement(MaterialPageRoute(builder: (ctx) {
                         return HOME();
                       }));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text("Wrong passcode"),
+                      ));
                     }
                   }
                 },

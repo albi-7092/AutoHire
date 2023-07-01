@@ -1,5 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:login/Account.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'login.dart';
 
 class delete extends StatefulWidget {
   @override
@@ -7,7 +12,21 @@ class delete extends StatefulWidget {
 }
 
 class _deleteState extends State<delete> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final _formkey = GlobalKey<FormState>();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+
+  String document_id = '';
+  String user_email = '';
+  String user_password = '';
+
+  @override
+  void initState() {
+    fetch();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,12 +80,12 @@ class _deleteState extends State<delete> {
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: TextFormField(
+                          controller: email,
                           validator: (value) {
                             if (value == '') {
                               return 'Field is required';
                             }
                           },
-                          obscureText: true,
                           decoration: InputDecoration(
                               suffixIcon: Icon(Icons.email),
                               labelText: 'Email-id',
@@ -77,6 +96,8 @@ class _deleteState extends State<delete> {
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: TextFormField(
+                          controller: password,
+                          obscureText: true,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                               suffixIcon: Icon(Icons.security),
@@ -110,7 +131,31 @@ class _deleteState extends State<delete> {
                   backgroundColor: Color(0xFF17203A),
                 ),
                 onPressed: () {
-                  if (_formkey.currentState!.validate()) {}
+                  if (_formkey.currentState!.validate()) {
+                    if (email.text == user_email &&
+                        password.text == user_password) {
+                      delete();
+                    } else {
+                      showDialog(
+                          context: context,
+                          builder: (ctx) {
+                            return AlertDialog(
+                              title: Center(child: Text('Auto Hire')),
+                              content: Text(
+                                'oops..Please check the mail id and password',
+                                // style: TextStyle(color: Colors.red),
+                              ),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.of(ctx).pop();
+                                    },
+                                    child: Text('OK'))
+                              ],
+                            );
+                          }); //SHOWd
+                    }
+                  }
                 },
                 child: Text('Delete'),
               ),
@@ -119,5 +164,52 @@ class _deleteState extends State<delete> {
         ),
       ),
     );
+  }
+
+  Future<void> fetch() async {
+    final sp = await SharedPreferences.getInstance();
+    document_id = sp.getString('doc_id')!;
+    if (document_id.isNotEmpty) {
+      load();
+    }
+  }
+
+  Future<void> load() async {
+    firestore
+        .collection('USER')
+        .doc(document_id)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        user_email = documentSnapshot.get('email');
+        user_password = documentSnapshot.get('password');
+      }
+    });
+  }
+
+  Future<void> delete() async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: user_email, password: user_password);
+      User? user = auth.currentUser;
+      if (user != null) {
+        await user.delete();
+      } else {
+        print('user is empty');
+      }
+      firestore.collection('USER').doc(document_id).delete();
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (ctx) => login()), (route) => false);
+      logout();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> logout() async {
+    await auth.signOut();
+    final sh = await SharedPreferences.getInstance();
+    await sh.clear();
   }
 }

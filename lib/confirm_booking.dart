@@ -23,7 +23,6 @@ class _confirm_bookingState extends State<confirm_booking> {
   @override
   void initState() {
     car_doc_id = widget.car_id;
-
     loaddata();
     // TODO: implement initState
     super.initState();

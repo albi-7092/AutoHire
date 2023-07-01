@@ -189,11 +189,20 @@ class _loginState extends State<login> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 10),
-                      child: Text("or",
-                          style: TextStyle(color: Color(0xFF17203A))),
-                    ),
+                    // Padding(
+                    //   padding: EdgeInsets.only(top: 10),
+                    //   child: Text("or",
+                    //       style: TextStyle(color: Color(0xFF17203A))),
+                    // ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(top: 10),
+                    //   child: TextButton(
+                    //       onPressed: () {},
+                    //       child: Text(
+                    //         'Click Here',
+                    //         style: TextStyle(color: Color(0xFF17203A)),
+                    //       )),
+                    // )
                   ],
                   // ),
                 ),
@@ -218,7 +227,7 @@ class _loginState extends State<login> {
                     }));
                   },
                   child: Text(
-                    'register',
+                    'Register',
                     style: TextStyle(color: Color(0xFF17203A)),
                   ))
             ],

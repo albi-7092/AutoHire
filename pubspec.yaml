@@ -41,7 +41,9 @@ dependencies:
   firebase_core: ^2.13.0
   cloud_firestore: ^4.7.1
   firebase_auth: ^4.6.1
-  email_auth: ^1.0.0
+  email_otp: ^2.0.1
+  flutter_rating_bar: ^4.0.1
+  font_awesome_flutter: ^10.4.0
 
 dev_dependencies:
   flutter_test:

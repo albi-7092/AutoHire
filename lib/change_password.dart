@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:login/Account.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'forgot_password.dart';
+import 'forgot_password_verification.dart';
 
 class change_password extends StatefulWidget {
   @override
@@ -147,7 +147,7 @@ class _change_passwordState extends State<change_password> {
                               onPressed: () {
                                 Navigator.of(context)
                                     .push(MaterialPageRoute(builder: (ctx) {
-                                  return forgot_password();
+                                  return forgot_password_verification();
                                 }));
                               },
                               child: Text(

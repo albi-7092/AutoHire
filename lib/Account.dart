@@ -49,21 +49,6 @@ class account extends StatelessWidget {
               ),
               ListTile(
                 iconColor: Colors.black,
-                leading: Icon(Icons.android),
-                title: Text(
-                  'update number',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
-                    return Change_mobile_number();
-                  }));
-                },
-              ),
-              ListTile(
-                iconColor: Colors.black,
                 leading: Icon(Icons.delete),
                 title: Text(
                   'Delete my account',
@@ -77,17 +62,6 @@ class account extends StatelessWidget {
                   }));
                 },
               ),
-              // ListTile(
-              //   iconColor: Colors.black,
-              //   leading: Icon(Icons.message),
-              //   title: Text(
-              //     'Two-step verification',
-              //     style: TextStyle(
-              //       color: Colors.black,
-              //     ),
-              //   ),
-              //   onTap: () {},
-              // ),
               ListTile(
                 iconColor: Colors.black,
                 leading: Icon(Icons.password),

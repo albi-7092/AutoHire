@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:login/About.dart';
 import 'package:login/Bookings.dart';
 import 'package:login/profile.dart';
+import 'package:login/ratings.dart';
 import './tandc.dart';
 import 'package:login/Account.dart';
 import 'package:login/Home.dart';
@@ -139,7 +140,11 @@ class _menuState extends State<menu> {
                   'Ratings',
                   style: TextStyle(color: Colors.white),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
+                    return rating();
+                  }));
+                },
               ),
               ListTile(
                 iconColor: Colors.white,

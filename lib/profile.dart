@@ -98,113 +98,113 @@ class _profileState extends State<profile> {
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.only(top: 50.0, left: 20, right: 20),
-        child: SingleChildScrollView(
-          child: Container(
-            child: Column(
-              children: [
-                CircleAvatar(
-                    backgroundImage: AssetImage('images/Unknown_person.jpg'),
-                    radius: 80),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    name,
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        child: name.isEmpty
+            ? Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 4.0,
+                ),
+              )
+            : SingleChildScrollView(
+                child: Container(
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                          backgroundImage:
+                              AssetImage('images/Unknown_person.jpg'),
+                          radius: 80),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          name,
+                          style: TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Form(
+                          key: _formkey,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 5, right: 5, top: 30),
+                                child: TextFormField(
+                                  controller: user_name_field,
+                                  decoration: InputDecoration(
+                                      labelText: 'user name :',
+                                      hintText: user_name,
+                                      prefixIcon: Icon(Icons.person)),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 5, right: 5, top: 15),
+                                child: TextFormField(
+                                  controller: name_field,
+                                  decoration: InputDecoration(
+                                      labelText: 'Name :',
+                                      hintText: name,
+                                      prefixIcon: Icon(Icons.person)),
+                                ),
+                              ),
+                              // Padding(
+                              //   padding:
+                              //       const EdgeInsets.only(left: 5, right: 5, top: 15),
+                              //   child: TextFormField(
+                              //     decoration: InputDecoration(
+                              //         labelText: 'Email ID :',
+                              //         hintText: email,
+                              //         border: OutlineInputBorder(
+                              //             borderRadius: BorderRadius.circular(30)),
+                              //         prefixIcon: Icon(Icons.email)),
+                              //   ),
+                              // ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 5, right: 5, top: 15),
+                                child: TextFormField(
+                                  controller: liscence_no_field,
+                                  decoration: InputDecoration(
+                                      labelText: 'Liscence No :',
+                                      hintText: Dl_nos,
+                                      prefixIcon: Icon(Icons.drive_eta)),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 5, right: 5, top: 15),
+                                child: TextFormField(
+                                  controller: age_field,
+                                  keyboardType: TextInputType.emailAddress,
+                                  decoration: InputDecoration(
+                                      labelText: 'age :',
+                                      hintText: age,
+                                      prefixIcon: Icon(Icons.calendar_month)),
+                                ),
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Text('Powered by Auto Hire'),
+                              )
+                              // Padding(
+                              //   padding:
+                              //       const EdgeInsets.only(left: 5, right: 5, top: 15),
+                              //   child: TextFormField(
+                              //     keyboardType: TextInputType.emailAddress,
+                              //     decoration: InputDecoration(
+                              //         labelText: 'Email id :',
+                              //         hintText: 'Enter your email',
+                              //         border: OutlineInputBorder(
+                              //             borderRadius: BorderRadius.circular(30)),
+                              //         prefixIcon: Icon(Icons.email)),
+                              //   ),
+                              // ),
+                            ],
+                          ))
+                    ],
                   ),
                 ),
-                Form(
-                    key: _formkey,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(left: 5, right: 5, top: 30),
-                          child: TextFormField(
-                            controller: user_name_field,
-                            decoration: InputDecoration(
-                                labelText: 'user name :',
-                                hintText: user_name,
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30)),
-                                prefixIcon: Icon(Icons.person)),
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(left: 5, right: 5, top: 15),
-                          child: TextFormField(
-                            controller: name_field,
-                            decoration: InputDecoration(
-                                labelText: 'Name :',
-                                hintText: name,
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30)),
-                                prefixIcon: Icon(Icons.person)),
-                          ),
-                        ),
-                        // Padding(
-                        //   padding:
-                        //       const EdgeInsets.only(left: 5, right: 5, top: 15),
-                        //   child: TextFormField(
-                        //     decoration: InputDecoration(
-                        //         labelText: 'Email ID :',
-                        //         hintText: email,
-                        //         border: OutlineInputBorder(
-                        //             borderRadius: BorderRadius.circular(30)),
-                        //         prefixIcon: Icon(Icons.email)),
-                        //   ),
-                        // ),
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(left: 5, right: 5, top: 15),
-                          child: TextFormField(
-                            controller: liscence_no_field,
-                            decoration: InputDecoration(
-                                labelText: 'Liscence No :',
-                                hintText: Dl_nos,
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30)),
-                                prefixIcon: Icon(Icons.drive_eta)),
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(left: 5, right: 5, top: 15),
-                          child: TextFormField(
-                            controller: age_field,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
-                                labelText: 'age :',
-                                hintText: age,
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30)),
-                                prefixIcon: Icon(Icons.calendar_month)),
-                          ),
-                        ),
-
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Text('Powered by Auto Hire'),
-                        )
-                        // Padding(
-                        //   padding:
-                        //       const EdgeInsets.only(left: 5, right: 5, top: 15),
-                        //   child: TextFormField(
-                        //     keyboardType: TextInputType.emailAddress,
-                        //     decoration: InputDecoration(
-                        //         labelText: 'Email id :',
-                        //         hintText: 'Enter your email',
-                        //         border: OutlineInputBorder(
-                        //             borderRadius: BorderRadius.circular(30)),
-                        //         prefixIcon: Icon(Icons.email)),
-                        //   ),
-                        // ),
-                      ],
-                    ))
-              ],
-            ),
-          ),
-        ),
+              ),
       )),
       bottomNavigationBar: BottomAppBar(
         elevation: 0,
