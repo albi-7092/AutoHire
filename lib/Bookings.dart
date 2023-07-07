@@ -20,6 +20,7 @@ class _bookingsState extends State<bookings> {
   String pucc = '';
   String insurance = '';
   String status = '';
+  String vehicle_Number = '';
 
   @override
   void initState() {
@@ -83,6 +84,7 @@ class _bookingsState extends State<bookings> {
         this.engine_cc = documentSnapshot.get('engine_cc');
         this.pucc = documentSnapshot.get('pucc');
         this.insurance = documentSnapshot.get('insurance');
+        this.vehicle_Number = documentSnapshot.get('vehicle_Number');
       });
       firestore
           .collection('USER')
@@ -258,6 +260,16 @@ class _bookingsState extends State<bookings> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [Text('Engine CC :'), Text(engine_cc)],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10, top: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('vehicle_Number :'),
+                        Text(vehicle_Number)
+                      ],
                     ),
                   ),
                   Padding(

@@ -23,6 +23,7 @@ class _main_screenState extends State<main_screen> {
   String rate = '';
   String image_url = '';
   String fuel = '';
+  String vehicle_Number = '';
   @override
   void initState() {
     this.car_doc_id = widget.car_id;
@@ -47,6 +48,7 @@ class _main_screenState extends State<main_screen> {
             rate = documentSnapshot.get('rate');
             seat_capacity = documentSnapshot.get('seat_capacity');
             fuel = documentSnapshot.get('fuel');
+            vehicle_Number = documentSnapshot.get('vehicle_Number');
           });
         }
       });
@@ -154,6 +156,16 @@ class _main_screenState extends State<main_screen> {
                           children: [
                             Text('Fuel type :\t'),
                             Text(fuel),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 10, right: 10, top: 30),
+                        child: Row(
+                          children: [
+                            Text('vehicle_Number :\t'),
+                            Text(vehicle_Number),
                           ],
                         ),
                       ),
