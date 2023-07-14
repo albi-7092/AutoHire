@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:login/Home.dart';
 import 'package:login/Menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -140,7 +141,7 @@ class _bookingsState extends State<bookings> {
         leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop(MaterialPageRoute(builder: (ctx) {
-                return menu();
+                return HOME();
               }));
             },
             icon: Icon(Icons.arrow_back)),

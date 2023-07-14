@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login/Home.dart';
 import 'package:login/change_password.dart';
 import 'package:login/passcode.dart';
 import 'package:login/passcode_set.dart';
@@ -19,7 +20,7 @@ class account extends StatelessWidget {
         leading: IconButton(
           onPressed: () {
             Navigator.of(context).pop(MaterialPageRoute(builder: (ctx) {
-              return menu();
+              return HOME();
             }));
           },
           icon: Icon(Icons.arrow_back),

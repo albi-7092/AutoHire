@@ -16,6 +16,7 @@ class _loginState extends State<login> {
   TextEditingController password = TextEditingController();
   FirebaseAuth auth = FirebaseAuth.instance;
   String dox = '';
+  var stat;
 
   Future<void> SighnIn(BuildContext context) async {
     try {
@@ -29,6 +30,7 @@ class _loginState extends State<login> {
           .get();
       if (snapshot.size > 0) {
         dox = snapshot.docs[0].id;
+        print(dox);
       }
       print('doc_id:$dox');
       if (dox != '' || dox != null) {
@@ -103,6 +105,15 @@ class _loginState extends State<login> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    setState(() {
+      stat = true;
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -147,8 +158,23 @@ class _loginState extends State<login> {
                       padding: EdgeInsets.only(left: 10, top: 10, right: 10),
                       child: TextFormField(
                         controller: password,
-                        obscureText: true,
+                        obscureText: stat,
                         decoration: InputDecoration(
+                            suffixIcon: stat
+                                ? IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        stat = false;
+                                      });
+                                    },
+                                    icon: Icon(Icons.visibility_off))
+                                : IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        stat = true;
+                                      });
+                                    },
+                                    icon: Icon(Icons.visibility)),
                             prefixIcon: Icon(Icons.security),
                             hintText: "password"),
                         validator: (value) {
