@@ -93,7 +93,7 @@ class _main_screenState extends State<main_screen> {
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: image_url.isEmpty
-                              ? SizedBox(
+                              ? const SizedBox(
                                   width: 100,
                                   height: 100,
                                   child: Center(
@@ -102,14 +102,20 @@ class _main_screenState extends State<main_screen> {
                                     ),
                                   ),
                                 )
-                              : Container(
-                                  width: double.infinity,
-                                  height: 260,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(30),
-                                      image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(image_url))),
+                              : Card(
+                                  elevation: 20,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 260,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: NetworkImage(image_url))),
+                                  ),
                                 ),
                         ),
                       ),
@@ -144,14 +150,14 @@ class _main_screenState extends State<main_screen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 30),
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 20),
                         child: Row(
                           children: [Text('Engine CC :'), Text(engine_cc)],
                         ),
                       ),
                       Padding(
                         padding:
-                            const EdgeInsets.only(left: 10, right: 10, top: 30),
+                            const EdgeInsets.only(left: 10, right: 10, top: 20),
                         child: Row(
                           children: [
                             Text('Fuel type :\t'),
@@ -161,7 +167,7 @@ class _main_screenState extends State<main_screen> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsets.only(left: 10, right: 10, top: 30),
+                            const EdgeInsets.only(left: 10, right: 10, top: 20),
                         child: Row(
                           children: [
                             Text('vehicle_Number :\t'),
@@ -170,13 +176,13 @@ class _main_screenState extends State<main_screen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 30),
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 20),
                         child: Row(
                           children: [Text('pucc valid upto :'), Text(pucc)],
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 30),
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 20),
                         child: Row(
                           children: [
                             Text('Insurance valid upto :'),

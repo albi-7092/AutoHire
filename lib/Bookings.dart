@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:login/Home.dart';
-import 'package:login/Menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'map.dart';
 
 class bookings extends StatefulWidget {
   @override
@@ -22,6 +22,9 @@ class _bookingsState extends State<bookings> {
   String insurance = '';
   String status = '';
   String vehicle_Number = '';
+  String Lang = '';
+  String long = '';
+  String phone_no = '';
 
   @override
   void initState() {
@@ -86,6 +89,9 @@ class _bookingsState extends State<bookings> {
         this.pucc = documentSnapshot.get('pucc');
         this.insurance = documentSnapshot.get('insurance');
         this.vehicle_Number = documentSnapshot.get('vehicle_Number');
+        this.Lang = documentSnapshot.get('lang');
+        this.long = documentSnapshot.get('long');
+        this.phone_no = documentSnapshot.get('phone_no');
       });
       firestore
           .collection('USER')
@@ -100,17 +106,6 @@ class _bookingsState extends State<bookings> {
   }
 
   Future<void> cancel() async {
-    final sh = await SharedPreferences.getInstance();
-    final sv = sh.getString('doc_id');
-    String doc_id = sv.toString();
-    final DocumentReference documentReference =
-        firestore.collection('USER').doc(doc_id);
-    final DocumentReference document = firestore.collection('USER').doc(doc_id);
-    document.update({
-      'car_book_id': '',
-      'status': '',
-    });
-
     showDialog(
         context: context,
         builder: (ctx) {
@@ -129,7 +124,17 @@ class _bookingsState extends State<bookings> {
                   child: Text('OK'))
             ],
           );
-        }); //SHOWd
+        }); //SHOW
+    final sh = await SharedPreferences.getInstance();
+    final sv = sh.getString('doc_id');
+    String doc_id = sv.toString();
+    final DocumentReference documentReference =
+        firestore.collection('USER').doc(doc_id);
+    final DocumentReference document = firestore.collection('USER').doc(doc_id);
+    document.update({
+      'car_book_id': '',
+      'status': '',
+    });
   }
 
   @override
@@ -145,6 +150,15 @@ class _bookingsState extends State<bookings> {
               }));
             },
             icon: Icon(Icons.arrow_back)),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
+                  return maps(Lang, long, provider, phone_no);
+                }));
+              },
+              icon: Icon(Icons.map))
+        ],
         backgroundColor: Color(0xFF17203A),
       ),
       body: SafeArea(
@@ -160,33 +174,33 @@ class _bookingsState extends State<bookings> {
             : SingleChildScrollView(
                 child: Column(
                 children: [
-                  Container(
-                    width: double.infinity,
-                    height: 250,
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                    child: image_url.isEmpty
-                        ? SizedBox(
-                            width: 100,
-                            height: 100,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                strokeWidth: 4.0,
-                              ),
+                  image_url.isEmpty
+                      ? const SizedBox(
+                          width: 100,
+                          height: 100,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              strokeWidth: 4.0,
                             ),
-                          )
-                        : Container(
+                          ),
+                        )
+                      : Card(
+                          elevation: 20,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Container(
                             width: double.infinity,
                             height: 260,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
                                 image: DecorationImage(
                                     fit: BoxFit.cover,
-                                    image: NetworkImage(this.image_url))),
+                                    image: NetworkImage(image_url))),
                           ),
-                  ),
+                        ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(left: 10, top: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -236,12 +250,8 @@ class _bookingsState extends State<bookings> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'fuel type',
-                          // style: TextStyle(
-                          //     fontFamily: 'Montserrat',
-                          //     fontSize: 18,
-                          //     fontWeight: FontWeight.bold),
                         ),
                         Text(
                           fuel,
@@ -281,21 +291,22 @@ class _bookingsState extends State<bookings> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10, top: 30),
+                    padding: EdgeInsets.only(left: 10, right: 10, top: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('insurance valid upto :'),
+                        const Text('insurance valid upto :'),
                         Text(insurance)
                       ],
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10, top: 25),
+                    padding:
+                        const EdgeInsets.only(left: 10, right: 10, top: 25),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Payment Status :\t',
                           style: TextStyle(
                               fontFamily: 'babilon',
@@ -304,7 +315,7 @@ class _bookingsState extends State<bookings> {
                         ),
                         Text(
                           status,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontFamily: 'babilon',
                               fontSize: 25,
                               fontWeight: FontWeight.bold),

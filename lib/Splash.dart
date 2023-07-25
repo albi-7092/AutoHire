@@ -28,6 +28,14 @@ class _splashState extends State<splash> {
           child: Image.asset("images/logo.jpeg"),
         ),
       )),
+      bottomNavigationBar: BottomAppBar(
+        elevation: 0,
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 10, left: 130),
+          child: Text('Powered by Auto Hire'),
+        ),
+      ),
     );
   }
 

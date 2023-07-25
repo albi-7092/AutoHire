@@ -3,12 +3,8 @@ import 'package:login/Home.dart';
 import 'package:login/change_password.dart';
 import 'package:login/passcode.dart';
 import 'package:login/passcode_set.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'Change_mobile_number.dart';
 import 'Delete_account.dart';
-import 'Menu.dart';
 
 class account extends StatelessWidget {
   @override
@@ -78,6 +74,18 @@ class account extends StatelessWidget {
                   }));
                 },
               ),
+              // ListTile(
+              //   iconColor: Colors.black,
+              //   leading: Icon(Icons.fingerprint),
+              //   title: Text(
+              //     'Finger Print',
+              //     style: TextStyle(
+              //       color: Colors.black,
+              //     ),
+              //   ),
+              //   onTap: () {},
+              //   subtitle: ,
+              // ),
             ],
           ),
         ),

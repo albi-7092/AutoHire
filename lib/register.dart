@@ -13,6 +13,7 @@ class register extends StatefulWidget {
 }
 
 class _registerState extends State<register> {
+  bool stat = true;
   TextEditingController Name = TextEditingController();
 
   TextEditingController user_Name = TextEditingController();
@@ -207,7 +208,7 @@ class _registerState extends State<register> {
                             padding:
                                 EdgeInsets.only(left: 10, right: 10, top: 15),
                             child: TextFormField(
-                              obscureText: true,
+                              obscureText: false,
                               validator: (value) {
                                 if (value == '') {
                                   return 'password * is mandatory';
@@ -225,8 +226,23 @@ class _registerState extends State<register> {
                             padding:
                                 EdgeInsets.only(left: 10, right: 10, top: 15),
                             child: TextFormField(
+                              obscureText: stat,
                               decoration: InputDecoration(
-                                  suffixIcon: Icon(Icons.security),
+                                  suffixIcon: stat == true
+                                      ? IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              stat = false;
+                                            });
+                                          },
+                                          icon: Icon(Icons.visibility_off))
+                                      : IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              stat = true;
+                                            });
+                                          },
+                                          icon: Icon(Icons.visibility)),
                                   labelText: 'Re-type password'),
                               controller: passwordconfirm,
                               validator: (value) {
