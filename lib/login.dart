@@ -1,16 +1,19 @@
+// ignore_for_file: unused_local_variable, use_build_context_synchronously, non_constant_identifier_names, use_key_in_widget_constructors, camel_case_types, prefer_typing_uninitialized_variables
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:login/Home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class login extends StatefulWidget {
+class Login extends StatefulWidget {
   @override
-  State<login> createState() => _loginState();
+  State<Login> createState() => _LoginState();
 }
 
-class _loginState extends State<login> {
+class _LoginState extends State<Login> {
   final _formkey = GlobalKey<FormState>();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
@@ -30,9 +33,12 @@ class _loginState extends State<login> {
           .get();
       if (snapshot.size > 0) {
         dox = snapshot.docs[0].id;
-        print(dox);
+        if (kDebugMode) {
+          print(dox);
+        }
       }
       print('doc_id:$dox');
+      // ignore: unnecessary_null_comparison
       if (dox != '' || dox != null) {
         login_Save();
 
@@ -44,62 +50,64 @@ class _loginState extends State<login> {
       if (e.code == 'user-not-found') {
         print('user not found');
         showDialog(
-            context: context,
-            builder: (ctx) {
-              return AlertDialog(
-                title: Center(child: Text('Auto Hire')),
-                content: Text(
-                  'user not found',
-                  // style: TextStyle(color: Colors.red),
-                ),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                      },
-                      child: Text('OK'))
-                ],
-              );
-            });
+          context: context,
+          builder: (ctx) {
+            return AlertDialog(
+              title: const Center(child: Text('Auto Hire')),
+              content: const Text(
+                'user not found',
+                // style: TextStyle(color: Colors.red),
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                    child: const Text('OK'))
+              ],
+            );
+          },
+        );
       } else if (e.code == 'wrong-password') {
         print('wrong password');
         showDialog(
-            context: context,
-            builder: (ctx) {
-              return AlertDialog(
-                title: Center(child: Text('Auto Hire')),
-                content: Text(
-                  'wrong password',
-                  // style: TextStyle(color: Colors.red),
-                ),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                      },
-                      child: Text('OK'))
-                ],
-              );
-            }); //SHOWd
+          context: context,
+          builder: (ctx) {
+            return AlertDialog(
+              title: const Center(child: Text('Auto Hire')),
+              content: const Text(
+                'wrong password',
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                    child: const Text('OK'))
+              ],
+            );
+          },
+        ); //SHOW
       } else {
         print('invalid email id');
         showDialog(
-            context: context,
-            builder: (ctx) {
-              return AlertDialog(
-                title: Center(child: Text('Auto Hire')),
-                content: Text(
-                  'Invalid Email ID',
-                ),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(ctx).pop();
-                      },
-                      child: Text('OK'))
-                ],
-              );
-            });
+          context: context,
+          builder: (ctx) {
+            return AlertDialog(
+              title: const Center(child: Text('Auto Hire')),
+              content: const Text(
+                'Invalid Email ID',
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                    child: const Text('OK'))
+              ],
+            );
+          },
+        );
       }
     }
   }
@@ -118,12 +126,8 @@ class _loginState extends State<login> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          //width: MediaQuery.of(context).size.width,
-          //height: MediaQuery.of(context).size.height,
-
           width: double.infinity,
           height: double.infinity,
-          //color: Color.fromARGB(255, 255, 61, 2),
           color: Colors.white,
           child: SingleChildScrollView(
             child: Form(
@@ -131,31 +135,33 @@ class _loginState extends State<login> {
               child: Center(
                 child: Column(
                   children: [
-                    Container(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 25),
-                        child: SizedBox(
-                            width: 450,
-                            height: 250,
-                            child: Image.asset("images/logo.jpeg")),
-                      ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 25),
+                      child: SizedBox(
+                          width: 450,
+                          height: 250,
+                          child: Image.asset("images/logo.jpeg")),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10, top: 15),
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 15),
                       child: TextFormField(
                         controller: email,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             prefixIcon: Icon(Icons.email),
                             hintText: "Email id"),
                         validator: (value) {
                           if (value == '') {
                             return 'Enter a valid email id';
+                          } else {
+                            return null;
                           }
                         },
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 10, top: 10, right: 10),
+                      padding:
+                          const EdgeInsets.only(left: 10, top: 10, right: 10),
                       child: TextFormField(
                         controller: password,
                         obscureText: stat,
@@ -163,73 +169,67 @@ class _loginState extends State<login> {
                             suffixIcon: stat
                                 ? IconButton(
                                     onPressed: () {
-                                      setState(() {
-                                        stat = false;
-                                      });
+                                      setState(
+                                        () {
+                                          stat = false;
+                                        },
+                                      );
                                     },
-                                    icon: Icon(Icons.visibility_off))
+                                    icon: const Icon(Icons.visibility_off))
                                 : IconButton(
                                     onPressed: () {
-                                      setState(() {
-                                        stat = true;
-                                      });
+                                      setState(
+                                        () {
+                                          stat = true;
+                                        },
+                                      );
                                     },
-                                    icon: Icon(Icons.visibility)),
-                            prefixIcon: Icon(Icons.security),
+                                    icon: const Icon(Icons.visibility)),
+                            prefixIcon: const Icon(Icons.security),
                             hintText: "password"),
                         validator: (value) {
                           if (value == '') {
                             return 'Enter a valid password';
+                          } else {
+                            return null;
                           }
                         },
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 20, left: 10, right: 10),
+                      padding:
+                          const EdgeInsets.only(top: 20, left: 10, right: 10),
                       child: SizedBox(
                         width: 360,
                         height: 40,
                         child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xFF17203A)),
-                            onPressed: () {
-                              if (_formkey.currentState!.validate()) {
-                                SighnIn(context);
-                              }
-                            },
-                            child: Text("Login")),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF17203A)),
+                          onPressed: () {
+                            if (_formkey.currentState!.validate()) {
+                              SighnIn(context);
+                            }
+                          },
+                          child: const Text("Login"),
+                        ),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 25),
+                      padding: const EdgeInsets.only(top: 25),
                       child: Column(
                         children: [
-                          Text("Forgot your login details?"),
+                          const Text("Forgot your login details?"),
                           TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                "Get help",
-                                style: TextStyle(color: Color(0xFF17203A)),
-                              ))
+                            onPressed: () {},
+                            child: const Text(
+                              "Get help",
+                              style: TextStyle(color: Color(0xFF17203A)),
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                    // Padding(
-                    //   padding: EdgeInsets.only(top: 10),
-                    //   child: Text("or",
-                    //       style: TextStyle(color: Color(0xFF17203A))),
-                    // ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(top: 10),
-                    //   child: TextButton(
-                    //       onPressed: () {},
-                    //       child: Text(
-                    //         'Click Here',
-                    //         style: TextStyle(color: Color(0xFF17203A)),
-                    //       )),
-                    // )
                   ],
-                  // ),
                 ),
               ),
             ),
@@ -243,18 +243,24 @@ class _loginState extends State<login> {
           padding: const EdgeInsets.only(left: 95),
           child: Row(
             children: [
-              Text("Don't have an account ?"),
+              const Text("Don't have an account ?"),
               TextButton(
-                  onPressed: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (ctx) {
-                      return register();
-                    }));
-                  },
-                  child: Text(
-                    'Register',
-                    style: TextStyle(color: Color(0xFF17203A)),
-                  ))
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (ctx) {
+                        return Register();
+                      },
+                    ),
+                  );
+                },
+                child: const Text(
+                  'Register',
+                  style: TextStyle(
+                    color: Color(0xFF17203A),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

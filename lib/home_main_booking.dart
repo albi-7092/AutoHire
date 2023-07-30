@@ -1,17 +1,18 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:login/Home.dart';
 import 'package:login/confirm_booking.dart';
 
-class main_screen extends StatefulWidget {
+class Main_screen extends StatefulWidget {
   String car_id = '';
-  main_screen(this.car_id);
-
+  Main_screen(this.car_id);
   @override
-  State<main_screen> createState() => _main_screenState();
+  State<Main_screen> createState() => _Main_screenState();
 }
 
-class _main_screenState extends State<main_screen> {
+class _Main_screenState extends State<Main_screen> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   String Model_no = '';
@@ -33,25 +34,25 @@ class _main_screenState extends State<main_screen> {
 
   Future<void> loaddata() async {
     try {
-      firestore
-          .collection('PROVIDER')
-          .doc(car_doc_id)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        if (documentSnapshot.exists) {
-          setState(() {
-            image_url = documentSnapshot.get('image_url');
-            Model_no = documentSnapshot.get('model_no');
-            engine_cc = documentSnapshot.get('engine_cc');
-            pucc = documentSnapshot.get('pucc');
-            insurance = documentSnapshot.get('insurance');
-            rate = documentSnapshot.get('rate');
-            seat_capacity = documentSnapshot.get('seat_capacity');
-            fuel = documentSnapshot.get('fuel');
-            vehicle_Number = documentSnapshot.get('vehicle_Number');
-          });
-        }
-      });
+      firestore.collection('PROVIDER').doc(car_doc_id).get().then(
+        (DocumentSnapshot documentSnapshot) {
+          if (documentSnapshot.exists) {
+            setState(
+              () {
+                image_url = documentSnapshot.get('image_url');
+                Model_no = documentSnapshot.get('model_no');
+                engine_cc = documentSnapshot.get('engine_cc');
+                pucc = documentSnapshot.get('pucc');
+                insurance = documentSnapshot.get('insurance');
+                rate = documentSnapshot.get('rate');
+                seat_capacity = documentSnapshot.get('seat_capacity');
+                fuel = documentSnapshot.get('fuel');
+                vehicle_Number = documentSnapshot.get('vehicle_Number');
+              },
+            );
+          }
+        },
+      );
     } catch (e) {
       print('Error :$e');
     }
@@ -61,162 +62,173 @@ class _main_screenState extends State<main_screen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF17203A),
+        backgroundColor: const Color(0xFF17203A),
         title: Text(Model_no),
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).pop(MaterialPageRoute(builder: (ctx) {
-              return HOME();
-            }));
+            Navigator.of(context).pop(
+              MaterialPageRoute(
+                builder: (ctx) {
+                  return HOME();
+                },
+              ),
+            );
           },
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
         ),
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
-          child: image_url.isEmpty
-              ? Center(
-                  child: CircularProgressIndicator(
-                    strokeWidth: 4.0,
-                  ),
-                )
-              : SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Container(
-                          width: double.infinity,
-                          height: 260,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: image_url.isEmpty
-                              ? const SizedBox(
-                                  width: 100,
-                                  height: 100,
-                                  child: Center(
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 4.0,
-                                    ),
-                                  ),
-                                )
-                              : Card(
-                                  elevation: 20,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 260,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(30),
-                                        image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(image_url))),
+        child: image_url.isEmpty
+            ? const Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 4.0,
+                ),
+              )
+            : SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Container(
+                        width: double.infinity,
+                        height: 260,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: image_url.isEmpty
+                            ? const SizedBox(
+                                width: 100,
+                                height: 100,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 4.0,
                                   ),
                                 ),
-                        ),
+                              )
+                            : Card(
+                                elevation: 20,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 260,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(image_url),
+                                    ),
+                                  ),
+                                ),
+                              ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Text(
-                          Model_no,
-                          style: TextStyle(
-                              fontFamily: 'babilon',
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold),
-                        ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Text(
+                        Model_no,
+                        style: const TextStyle(
+                            fontFamily: 'babilon',
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold),
                       ),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(left: 10, right: 10, top: 05),
-                        child: Text(
-                          'About the Car',
-                          style: TextStyle(
-                              fontFamily: 'babilon',
-                              fontSize: 25,
-                              fontWeight: FontWeight.w500),
-                        ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 10, right: 10, top: 05),
+                      child: Text(
+                        'About the Car',
+                        style: TextStyle(
+                            fontFamily: 'babilon',
+                            fontSize: 25,
+                            fontWeight: FontWeight.w500),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 20),
-                        child: Row(
-                          children: [
-                            Text('Seat capacity :'),
-                            Text(seat_capacity)
-                          ],
-                        ),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 20),
+                      child: Row(
+                        children: [
+                          const Text('Seat capacity :'),
+                          Text(seat_capacity)
+                        ],
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 20),
-                        child: Row(
-                          children: [Text('Engine CC :'), Text(engine_cc)],
-                        ),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 20),
+                      child: Row(
+                        children: [const Text('Engine CC :'), Text(engine_cc)],
                       ),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(left: 10, right: 10, top: 20),
-                        child: Row(
-                          children: [
-                            Text('Fuel type :\t'),
-                            Text(fuel),
-                          ],
-                        ),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 20),
+                      child: Row(
+                        children: [
+                          const Text('Fuel type :\t'),
+                          Text(fuel),
+                        ],
                       ),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(left: 10, right: 10, top: 20),
-                        child: Row(
-                          children: [
-                            Text('vehicle_Number :\t'),
-                            Text(vehicle_Number),
-                          ],
-                        ),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 20),
+                      child: Row(
+                        children: [
+                          const Text('vehicle_Number :\t'),
+                          Text(vehicle_Number),
+                        ],
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 20),
-                        child: Row(
-                          children: [Text('pucc valid upto :'), Text(pucc)],
-                        ),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 20),
+                      child: Row(
+                        children: [const Text('pucc valid upto :'), Text(pucc)],
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 20),
-                        child: Row(
-                          children: [
-                            Text('Insurance valid upto :'),
-                            Text(insurance)
-                          ],
-                        ),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 20),
+                      child: Row(
+                        children: [
+                          const Text('Insurance valid upto :'),
+                          Text(insurance)
+                        ],
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 25),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Rate : ',
-                              style: TextStyle(
-                                  fontFamily: 'babilon',
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              rate,
-                              style: TextStyle(
-                                  fontFamily: 'babilon',
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                )),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 25),
+                      child: Row(
+                        children: [
+                          const Text(
+                            'Rate : ',
+                            style: TextStyle(
+                                fontFamily: 'babilon',
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            rate,
+                            style: const TextStyle(
+                                fontFamily: 'babilon',
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+      ),
       bottomNavigationBar: BottomAppBar(
         elevation: 0,
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -227,14 +239,14 @@ class _main_screenState extends State<main_screen> {
               borderRadius: BorderRadius.circular(30),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF17203A),
+                  backgroundColor: const Color(0xFF17203A),
                 ),
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
-                    return confirm_booking(car_doc_id);
+                    return Confirm_booking(car_doc_id);
                   }));
                 },
-                child: Text('Ready to Book'),
+                child: const Text('Ready to Book'),
               ),
             ),
           ),

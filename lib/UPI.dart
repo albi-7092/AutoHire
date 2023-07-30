@@ -1,41 +1,37 @@
+// ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:upi_india/upi_india.dart';
 
 class UPIpayment extends StatefulWidget {
-  String provider_name = '';
-  String amount = '';
-  String prov_upi_id = '';
-  UPIpayment(this.provider_name, this.amount, this.prov_upi_id);
+  String provider_name = '', amount = '', prov_upi_id = '';
+  UPIpayment(this.provider_name, this.amount, this.prov_upi_id, {super.key});
   @override
   State<UPIpayment> createState() => _UPIpaymentState();
 }
 
-String amount_pay = '';
-String prov_upi_id_p = '';
-
 class _UPIpaymentState extends State<UPIpayment> {
+  String prov_upi_id_p = '';
   String provider_name = '';
   double num = 1;
   Future<UpiResponse>? _transaction;
   UpiIndia _upiIndia = UpiIndia();
   List<UpiApp>? apps;
 
-  TextStyle header = TextStyle(
+  TextStyle header = const TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.bold,
   );
 
-  TextStyle value = TextStyle(
+  TextStyle value = const TextStyle(
     fontWeight: FontWeight.w400,
     fontSize: 14,
   );
 
   @override
   void initState() {
-    amount_pay = widget.amount;
-    provider_name = widget.provider_name;
     prov_upi_id_p = widget.prov_upi_id;
-    num = double.parse(amount_pay);
+    provider_name = widget.provider_name;
+    num = double.parse(widget.amount);
     _upiIndia.getAllUpiApps(mandatoryTransactionId: false).then((value) {
       setState(() {
         apps = value;
@@ -51,23 +47,25 @@ class _UPIpaymentState extends State<UPIpayment> {
       app: app,
       receiverUpiId: prov_upi_id_p,
       receiverName: provider_name,
-      transactionRefId: 'TestingUpiIndiaPlugin',
+      transactionRefId: 'Transaction id',
       transactionNote: 'Not actual. Just an example.',
       amount: num,
     );
   }
 
   Widget displayUpiApps() {
-    if (apps == null)
-      return Center(child: CircularProgressIndicator());
-    else if (apps!.length == 0)
+    if (apps == null) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else if (apps!.isEmpty) {
       return Center(
         child: Text(
           "No apps found to handle transaction.",
           style: header,
         ),
       );
-    else
+    } else {
       return Align(
         alignment: Alignment.topCenter,
         child: SingleChildScrollView(
@@ -100,22 +98,23 @@ class _UPIpaymentState extends State<UPIpayment> {
           ),
         ),
       );
-  }
-
-  String _upiErrorHandler(error) {
-    switch (error) {
-      case UpiIndiaAppNotInstalledException:
-        return 'Requested app not installed on device';
-      case UpiIndiaUserCancelledException:
-        return 'You cancelled the transaction';
-      case UpiIndiaNullResponseException:
-        return 'Requested app didn\'t return any response';
-      case UpiIndiaInvalidParametersException:
-        return 'Requested app cannot handle the transaction';
-      default:
-        return 'An Unknown error has occurred';
     }
   }
+
+  // String _upiErrorHandler(error) {
+  //   switch (error) {
+  //     case UpiIndiaAppNotInstalledException:
+  //       return 'Requested app not installed on device';
+  //     case UpiIndiaUserCancelledException:
+  //       return 'You cancelled the transaction';
+  //     case UpiIndiaNullResponseException:
+  //       return 'Requested app didn\'t return any response';
+  //     case UpiIndiaInvalidParametersException:
+  //       return 'Requested app cannot handle the transaction';
+  //     default:
+  //       return 'An Unknown error has occurred';
+  //   }
+  // }
 
   void _checkTxnStatus(String status, BuildContext ctx) {
     switch (status) {
@@ -156,7 +155,7 @@ class _UPIpaymentState extends State<UPIpayment> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Color(0xFF17203A),
-        title: Text('UPI'),
+        title: const Text('UPI'),
       ),
       body: Column(
         children: <Widget>[
@@ -171,11 +170,12 @@ class _UPIpaymentState extends State<UPIpayment> {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasError) {
                     return Padding(
-                        padding: EdgeInsets.only(top: 100),
-                        child: Center(
-                          child: Text(
-                              _upiErrorHandler(snapshot.error.runtimeType)),
-                        ));
+                      padding: EdgeInsets.only(top: 100),
+                      // child: Center(
+                      //   child:
+                      //       Text(_upiErrorHandler(snapshot.error.runtimeType)),
+                      // ),
+                    );
                   }
 
                   // If we have data then definitely we will have UpiResponse.
@@ -213,12 +213,12 @@ class _UPIpaymentState extends State<UPIpayment> {
           )
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
+      bottomNavigationBar: const BottomAppBar(
         elevation: 0,
         shape: CircularNotchedRectangle(),
         color: Colors.white,
         child: Padding(
-            padding: const EdgeInsets.only(left: 130, right: 50, bottom: 10),
+            padding: EdgeInsets.only(left: 130, right: 50, bottom: 10),
             child: Text('Powered by Auto Hire')),
       ),
     );

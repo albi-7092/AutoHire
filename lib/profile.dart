@@ -1,15 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'Account.dart';
 
-class profile extends StatefulWidget {
+class Profile extends StatefulWidget {
+  const Profile({super.key});
+
   @override
-  State<profile> createState() => _profileState();
+  State<Profile> createState() => _ProfileState();
 }
 
-class _profileState extends State<profile> {
+class _ProfileState extends State<Profile> {
   TextEditingController name_field = TextEditingController();
   TextEditingController user_name_field = TextEditingController();
   TextEditingController email_id_field = TextEditingController();
@@ -60,23 +61,23 @@ class _profileState extends State<profile> {
     } on Exception catch (e) {
       print('failed $e');
       showDialog(
-          context: context,
-          builder: (ctx) {
-            return AlertDialog(
-              title: Center(child: Text('Auto Hire')),
-              content: Text(
-                '$e',
-                // style: TextStyle(color: Colors.red),
-              ),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(ctx).pop();
-                    },
-                    child: Text('OK'))
-              ],
-            );
-          });
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: const Center(child: Text('Auto Hire')),
+            content: Text(
+              '$e',
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                  child: const Text('OK'))
+            ],
+          );
+        },
+      );
     }
   }
 
@@ -87,28 +88,31 @@ class _profileState extends State<profile> {
         backgroundColor: Color(0xFF17203A),
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).pop(MaterialPageRoute(builder: (ctx) {
-              return account();
-            }));
+            Navigator.of(context).pop(
+              MaterialPageRoute(
+                builder: (ctx) {
+                  return Account();
+                },
+              ),
+            );
           },
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
         ),
-        title: Text('Profile'),
+        title: const Text('Profile'),
       ),
       body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.only(top: 50.0, left: 20, right: 20),
-        child: name.isEmpty
-            ? Center(
-                child: CircularProgressIndicator(
-                  strokeWidth: 4.0,
-                ),
-              )
-            : SingleChildScrollView(
-                child: Container(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 50.0, left: 20, right: 20),
+          child: name.isEmpty
+              ? const Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 4.0,
+                  ),
+                )
+              : SingleChildScrollView(
                   child: Column(
                     children: [
-                      CircleAvatar(
+                      const CircleAvatar(
                           backgroundImage:
                               AssetImage('images/Unknown_person.jpg'),
                           radius: 80),
@@ -116,99 +120,75 @@ class _profileState extends State<profile> {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           name,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 25, fontWeight: FontWeight.bold),
                         ),
                       ),
                       Form(
-                          key: _formkey,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 5, right: 5, top: 30),
-                                child: TextFormField(
-                                  controller: user_name_field,
-                                  decoration: InputDecoration(
-                                      labelText: 'user name :',
-                                      hintText: user_name,
-                                      prefixIcon: Icon(Icons.person)),
-                                ),
+                        key: _formkey,
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 5, right: 5, top: 30),
+                              child: TextFormField(
+                                controller: user_name_field,
+                                decoration: InputDecoration(
+                                    labelText: 'user name :',
+                                    hintText: user_name,
+                                    prefixIcon: const Icon(Icons.person)),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 5, right: 5, top: 15),
-                                child: TextFormField(
-                                  controller: name_field,
-                                  decoration: InputDecoration(
-                                      labelText: 'Name :',
-                                      hintText: name,
-                                      prefixIcon: Icon(Icons.person)),
-                                ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 5, right: 5, top: 15),
+                              child: TextFormField(
+                                controller: name_field,
+                                decoration: InputDecoration(
+                                    labelText: 'Name :',
+                                    hintText: name,
+                                    prefixIcon: const Icon(Icons.person)),
                               ),
-                              // Padding(
-                              //   padding:
-                              //       const EdgeInsets.only(left: 5, right: 5, top: 15),
-                              //   child: TextFormField(
-                              //     decoration: InputDecoration(
-                              //         labelText: 'Email ID :',
-                              //         hintText: email,
-                              //         border: OutlineInputBorder(
-                              //             borderRadius: BorderRadius.circular(30)),
-                              //         prefixIcon: Icon(Icons.email)),
-                              //   ),
-                              // ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 5, right: 5, top: 15),
-                                child: TextFormField(
-                                  controller: liscence_no_field,
-                                  decoration: InputDecoration(
-                                      labelText: 'Liscence No :',
-                                      hintText: Dl_nos,
-                                      prefixIcon: Icon(Icons.drive_eta)),
-                                ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 5, right: 5, top: 15),
+                              child: TextFormField(
+                                controller: liscence_no_field,
+                                decoration: InputDecoration(
+                                    labelText: 'Liscence No :',
+                                    hintText: Dl_nos,
+                                    prefixIcon: const Icon(Icons.drive_eta)),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 5, right: 5, top: 15),
-                                child: TextFormField(
-                                  controller: age_field,
-                                  keyboardType: TextInputType.emailAddress,
-                                  decoration: InputDecoration(
-                                      labelText: 'age :',
-                                      hintText: age,
-                                      prefixIcon: Icon(Icons.calendar_month)),
-                                ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 5, right: 5, top: 15),
+                              child: TextFormField(
+                                controller: age_field,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: InputDecoration(
+                                    labelText: 'age :',
+                                    hintText: age,
+                                    prefixIcon:
+                                        const Icon(Icons.calendar_month)),
                               ),
-
-                              Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Text('Powered by Auto Hire'),
-                              )
-                              // Padding(
-                              //   padding:
-                              //       const EdgeInsets.only(left: 5, right: 5, top: 15),
-                              //   child: TextFormField(
-                              //     keyboardType: TextInputType.emailAddress,
-                              //     decoration: InputDecoration(
-                              //         labelText: 'Email id :',
-                              //         hintText: 'Enter your email',
-                              //         border: OutlineInputBorder(
-                              //             borderRadius: BorderRadius.circular(30)),
-                              //         prefixIcon: Icon(Icons.email)),
-                              //   ),
-                              // ),
-                            ],
-                          ))
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text('Powered by Auto Hire'),
+                            )
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
-              ),
-      )),
+        ),
+      ),
       bottomNavigationBar: BottomAppBar(
         elevation: 0,
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -219,13 +199,13 @@ class _profileState extends State<profile> {
               borderRadius: BorderRadius.circular(30),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF17203A),
+                  backgroundColor: const Color(0xFF17203A),
                 ),
                 onPressed: () {
                   update();
                   print(document_id);
                 },
-                child: Text('Update'),
+                child: const Text('Update'),
               ),
             ),
           ),
@@ -244,11 +224,11 @@ class _profileState extends State<profile> {
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         setState(() {
-          this.user_name = documentSnapshot.get('user_name');
-          this.name = documentSnapshot.get('name');
-          this.email = documentSnapshot.get('email');
-          this.Dl_nos = documentSnapshot.get('dl_no');
-          this.age = documentSnapshot.get('age');
+          user_name = documentSnapshot.get('user_name');
+          name = documentSnapshot.get('name');
+          email = documentSnapshot.get('email');
+          Dl_nos = documentSnapshot.get('dl_no');
+          age = documentSnapshot.get('age');
         });
         print('name :$user_name');
       }

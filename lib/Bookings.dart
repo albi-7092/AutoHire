@@ -1,15 +1,17 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:login/Home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'map.dart';
 
-class bookings extends StatefulWidget {
+class Bookings extends StatefulWidget {
   @override
-  State<bookings> createState() => _bookingsState();
+  State<Bookings> createState() => _BookingsState();
 }
 
-class _bookingsState extends State<bookings> {
+class _BookingsState extends State<Bookings> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   String car_book_id = '';
   String model_no = "";
@@ -43,7 +45,7 @@ class _bookingsState extends State<bookings> {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       setState(() {
-        this.car_book_id = documentSnapshot.get('car_book_id');
+        car_book_id = documentSnapshot.get('car_book_id');
         print('CAR:$car_book_id');
         if (car_book_id == '') {
           print('NULL');
@@ -51,8 +53,8 @@ class _bookingsState extends State<bookings> {
               context: context,
               builder: (ctx) {
                 return AlertDialog(
-                  title: Center(child: Text('Auto Hire')),
-                  content: Text(
+                  title: const Center(child: Text('Auto Hire')),
+                  content: const Text(
                     'NO Bookings Found',
                     // style: TextStyle(color: Colors.red),
                   ),
@@ -62,10 +64,10 @@ class _bookingsState extends State<bookings> {
                           Navigator.of(ctx).pop();
                           Navigator.of(ctx).pop();
                         },
-                        child: Text('OK'))
+                        child: const Text('OK'))
                   ],
                 );
-              }); //SHOWd
+              }); //SHOWD
         } else {
           load(car_book_id, doc_id);
         }
@@ -80,18 +82,18 @@ class _bookingsState extends State<bookings> {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       setState(() {
-        this.image_url = documentSnapshot.get('image_url');
-        this.model_no = documentSnapshot.get('model_no');
-        this.fuel = documentSnapshot.get('fuel');
-        this.provider = documentSnapshot.get('prov_name');
-        this.seat_capacity = documentSnapshot.get('seat_capacity');
-        this.engine_cc = documentSnapshot.get('engine_cc');
-        this.pucc = documentSnapshot.get('pucc');
-        this.insurance = documentSnapshot.get('insurance');
-        this.vehicle_Number = documentSnapshot.get('vehicle_Number');
-        this.Lang = documentSnapshot.get('lang');
-        this.long = documentSnapshot.get('long');
-        this.phone_no = documentSnapshot.get('phone_no');
+        image_url = documentSnapshot.get('image_url');
+        model_no = documentSnapshot.get('model_no');
+        fuel = documentSnapshot.get('fuel');
+        provider = documentSnapshot.get('prov_name');
+        seat_capacity = documentSnapshot.get('seat_capacity');
+        engine_cc = documentSnapshot.get('engine_cc');
+        pucc = documentSnapshot.get('pucc');
+        insurance = documentSnapshot.get('insurance');
+        vehicle_Number = documentSnapshot.get('vehicle_Number');
+        Lang = documentSnapshot.get('lang');
+        long = documentSnapshot.get('long');
+        phone_no = documentSnapshot.get('phone_no');
       });
       firestore
           .collection('USER')
@@ -99,7 +101,7 @@ class _bookingsState extends State<bookings> {
           .get()
           .then((DocumentSnapshot documentSnapshot) {
         setState(() {
-          this.status = documentSnapshot.get('status');
+          status = documentSnapshot.get('status');
         });
       });
     });
@@ -110,8 +112,8 @@ class _bookingsState extends State<bookings> {
         context: context,
         builder: (ctx) {
           return AlertDialog(
-            title: Center(child: Text('Auto Hire')),
-            content: Text(
+            title: const Center(child: Text('Auto Hire')),
+            content: const Text(
               'Cacellation sucessfully completed',
               // style: TextStyle(color: Colors.red),
             ),
@@ -121,7 +123,7 @@ class _bookingsState extends State<bookings> {
                     Navigator.of(ctx).pop();
                     Navigator.of(ctx).pop();
                   },
-                  child: Text('OK'))
+                  child: const Text('OK'))
             ],
           );
         }); //SHOW
@@ -142,193 +144,198 @@ class _bookingsState extends State<bookings> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('My Bookings'),
+        title: const Text('My Bookings'),
         leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop(MaterialPageRoute(builder: (ctx) {
                 return HOME();
               }));
             },
-            icon: Icon(Icons.arrow_back)),
+            icon: const Icon(Icons.arrow_back)),
         actions: [
           IconButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
-                  return maps(Lang, long, provider, phone_no);
+                  return Maps(Lang, long, provider, phone_no);
                 }));
               },
-              icon: Icon(Icons.map))
+              icon: const Icon(Icons.map))
         ],
-        backgroundColor: Color(0xFF17203A),
+        backgroundColor: const Color(0xFF17203A),
       ),
       body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: car_book_id.isEmpty
-            ? Container(
-                child: Center(
-                    child: CircularProgressIndicator(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: car_book_id.isEmpty
+              ? const Center(
+                  child: CircularProgressIndicator(
                   strokeWidth: 4.0,
-                )),
-              )
-            : SingleChildScrollView(
-                child: Column(
-                children: [
-                  image_url.isEmpty
-                      ? const SizedBox(
-                          width: 100,
-                          height: 100,
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              strokeWidth: 4.0,
+                ))
+              : SingleChildScrollView(
+                  child: Column(
+                  children: [
+                    image_url.isEmpty
+                        ? const SizedBox(
+                            width: 100,
+                            height: 100,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                strokeWidth: 4.0,
+                              ),
+                            ),
+                          )
+                        : Card(
+                            elevation: 20,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Container(
+                              width: double.infinity,
+                              height: 260,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(image_url))),
                             ),
                           ),
-                        )
-                      : Card(
-                          elevation: 20,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10, top: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            model_no,
+                            style: const TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
                           ),
-                          child: Container(
-                            width: double.infinity,
-                            height: 260,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(image_url))),
+                        ],
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 10, right: 10, top: 20),
+                      child: Row(
+                        children: [
+                          Text(
+                            'About the Car',
+                            style: TextStyle(
+                                fontFamily: 'babilon',
+                                fontSize: 25,
+                                fontWeight: FontWeight.w700),
                           ),
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10, top: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          model_no,
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 10, right: 10, top: 20),
-                    child: Row(
-                      children: [
-                        Text(
-                          'About the Car',
-                          style: TextStyle(
-                              fontFamily: 'babilon',
-                              fontSize: 25,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ],
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Provider name :',
+                          ),
+                          Text(
+                            provider,
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 10, right: 10, top: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Provider name :',
-                        ),
-                        Text(
-                          provider,
-                        )
-                      ],
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'fuel type',
+                          ),
+                          Text(
+                            fuel,
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 10, right: 10, top: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'fuel type',
-                        ),
-                        Text(
-                          fuel,
-                        )
-                      ],
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('Seat capacity :'),
+                          Text(seat_capacity)
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10, top: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text('Seat capacity :'), Text(seat_capacity)],
+                    Padding(
+                      padding: EdgeInsets.only(left: 10, right: 10, top: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [const Text('Engine CC :'), Text(engine_cc)],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10, top: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text('Engine CC :'), Text(engine_cc)],
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('vehicle_Number :'),
+                          Text(vehicle_Number)
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10, top: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('vehicle_Number :'),
-                        Text(vehicle_Number)
-                      ],
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [const Text('pucc valid upto :'), Text(pucc)],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10, top: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text('pucc valid upto :'), Text(pucc)],
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('insurance valid upto :'),
+                          Text(insurance)
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10, top: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text('insurance valid upto :'),
-                        Text(insurance)
-                      ],
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 25),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Payment Status :\t',
+                            style: TextStyle(
+                                fontFamily: 'babilon',
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            status,
+                            style: const TextStyle(
+                                fontFamily: 'babilon',
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 10, right: 10, top: 25),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Payment Status :\t',
-                          style: TextStyle(
-                              fontFamily: 'babilon',
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          status,
-                          style: const TextStyle(
-                              fontFamily: 'babilon',
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              )),
-      )),
+                  ],
+                )),
+        ),
+      ),
       bottomNavigationBar: BottomAppBar(
         elevation: 0,
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -339,12 +346,12 @@ class _bookingsState extends State<bookings> {
               borderRadius: BorderRadius.circular(30),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF17203A),
+                  backgroundColor: const Color(0xFF17203A),
                 ),
                 onPressed: () {
                   cancel();
                 },
-                child: Text('Ready to Cancel'),
+                child: const Text('Ready to Cancel'),
               ),
             ),
           ),

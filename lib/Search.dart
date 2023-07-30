@@ -149,7 +149,7 @@ class _searchState extends State<search> {
           });
     } else {
       Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
-        return search_result(search.text, filter_value);
+        return Search_result(search.text, filter_value);
       }));
     }
   }

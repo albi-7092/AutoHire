@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable, use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,12 +8,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login.dart';
 
-class delete extends StatefulWidget {
+class Delete extends StatefulWidget {
+  const Delete({super.key});
+
   @override
-  State<delete> createState() => _deleteState();
+  State<Delete> createState() => _DeleteState();
 }
 
-class _deleteState extends State<delete> {
+class _DeleteState extends State<Delete> {
   FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final _formkey = GlobalKey<FormState>();
@@ -32,48 +36,53 @@ class _deleteState extends State<delete> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF17203A),
-        title: Text('Delete'),
+        backgroundColor: const Color(0xFF17203A),
+        title: const Text('Delete'),
         leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop(MaterialPageRoute(builder: (ctx) {
-                return account();
-              }));
-            },
-            icon: Icon(Icons.arrow_back)),
+          onPressed: () {
+            Navigator.of(context).pop(
+              MaterialPageRoute(
+                builder: (ctx) {
+                  return Account();
+                },
+              ),
+            );
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
       ),
       body: SafeArea(
-          child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Center(
-                child: Text(
-                  'Delete Account ?',
-                  style: TextStyle(
-                      fontFamily: 'babilon',
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Center(
+                  child: Text(
+                    'Delete Account ?',
+                    style: TextStyle(
+                        fontFamily: 'babilon',
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Center(
-                child: CircleAvatar(
-                    backgroundImage: AssetImage('images/Unknown_person.jpg'),
-                    radius: 80),
+              const Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Center(
+                  child: CircleAvatar(
+                      backgroundImage: AssetImage('images/Unknown_person.jpg'),
+                      radius: 80),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Text(
-                  'Anytime you can de-activate your account and Anytime you can activate your account ...'),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Form(
+              const Padding(
+                padding: EdgeInsets.all(10),
+                child: Text(
+                    'Anytime you can de-activate your account and Anytime you can activate your account ...'),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Form(
                   key: _formkey,
                   child: Column(
                     children: [
@@ -84,13 +93,17 @@ class _deleteState extends State<delete> {
                           validator: (value) {
                             if (value == '') {
                               return 'Field is required';
+                            } else {
+                              return null;
                             }
                           },
                           decoration: InputDecoration(
-                              suffixIcon: Icon(Icons.email),
-                              labelText: 'Email-id',
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(40))),
+                            suffixIcon: const Icon(Icons.email),
+                            labelText: 'Email-id',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                          ),
                         ),
                       ),
                       Padding(
@@ -100,22 +113,26 @@ class _deleteState extends State<delete> {
                           obscureText: true,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
-                              suffixIcon: Icon(Icons.security),
-                              labelText: 'password',
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(40))),
+                            suffixIcon: const Icon(Icons.security),
+                            labelText: 'password',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                          ),
                         ),
                       )
                     ],
-                  )),
-            ),
-            Text(
-              'Powered by Auto Hire',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-            )
-          ],
+                  ),
+                ),
+              ),
+              const Text(
+                'Powered by Auto Hire',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              )
+            ],
+          ),
         ),
-      )),
+      ),
       bottomNavigationBar: BottomAppBar(
         elevation: 0,
         color: Colors.white,
@@ -137,27 +154,28 @@ class _deleteState extends State<delete> {
                       delete();
                     } else {
                       showDialog(
-                          context: context,
-                          builder: (ctx) {
-                            return AlertDialog(
-                              title: Center(child: Text('Auto Hire')),
-                              content: Text(
-                                'oops..Please check the mail id and password',
-                                // style: TextStyle(color: Colors.red),
-                              ),
-                              actions: [
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.of(ctx).pop();
-                                    },
-                                    child: Text('OK'))
-                              ],
-                            );
-                          }); //SHOWd
+                        context: context,
+                        builder: (ctx) {
+                          return AlertDialog(
+                            title: Center(child: Text('Auto Hire')),
+                            content: const Text(
+                              'oops..Please check the mail id and password',
+                              // style: TextStyle(color: Colors.red),
+                            ),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.of(ctx).pop();
+                                  },
+                                  child: const Text('OK'))
+                            ],
+                          );
+                        },
+                      ); //SHOW
                     }
                   }
                 },
-                child: Text('Delete'),
+                child: const Text('Delete'),
               ),
             ),
           ),
@@ -175,16 +193,14 @@ class _deleteState extends State<delete> {
   }
 
   Future<void> load() async {
-    firestore
-        .collection('USER')
-        .doc(document_id)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        user_email = documentSnapshot.get('email');
-        user_password = documentSnapshot.get('password');
-      }
-    });
+    firestore.collection('USER').doc(document_id).get().then(
+      (DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          user_email = documentSnapshot.get('email');
+          user_password = documentSnapshot.get('password');
+        }
+      },
+    );
   }
 
   Future<void> delete() async {
@@ -200,7 +216,7 @@ class _deleteState extends State<delete> {
       }
       firestore.collection('USER').doc(document_id).delete();
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (ctx) => login()), (route) => false);
+          MaterialPageRoute(builder: (ctx) => Login()), (route) => false);
       logout();
     } catch (e) {
       print(e);

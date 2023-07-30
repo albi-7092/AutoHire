@@ -1,14 +1,16 @@
+// ignore_for_file: unused_local_variable, use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class password extends StatefulWidget {
+class Password extends StatefulWidget {
   @override
-  State<password> createState() => _passwordState();
+  State<Password> createState() => _PasswordState();
 }
 
-class _passwordState extends State<password> {
+class _PasswordState extends State<Password> {
   FirebaseAuth auth = FirebaseAuth.instance;
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -86,6 +88,8 @@ class _passwordState extends State<password> {
                       validator: (value) {
                         if (value != Password.text) {
                           return 'password should be same';
+                        } else {
+                          return null;
                         }
                       },
                       controller: cnfPassword,
@@ -103,7 +107,7 @@ class _passwordState extends State<password> {
       )),
       bottomNavigationBar: BottomAppBar(
         elevation: 0,
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -114,7 +118,7 @@ class _passwordState extends State<password> {
               borderRadius: BorderRadius.circular(30),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF17203A),
+                  backgroundColor: const Color(0xFF17203A),
                 ),
                 onPressed: () {
                   if (_formkey.currentState!.validate()) {
@@ -123,7 +127,7 @@ class _passwordState extends State<password> {
                     }
                   }
                 },
-                child: Text('Submit'),
+                child: const Text('Submit'),
               ),
             ),
           ),
@@ -159,23 +163,24 @@ class _passwordState extends State<password> {
       changepasswords();
     } catch (e) {
       showDialog(
-          context: context,
-          builder: (ctx) {
-            return AlertDialog(
-              title: Center(child: Text('Auto Hire')),
-              content: Text(
-                '$e',
-                // style: TextStyle(color: Colors.red),
-              ),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(ctx).pop();
-                    },
-                    child: Text('OK'))
-              ],
-            );
-          });
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: const Center(child: Text('Auto Hire')),
+            content: Text(
+              '$e',
+              // style: TextStyle(color: Colors.red),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                  child: const Text('OK'))
+            ],
+          );
+        },
+      );
     }
   }
 
@@ -187,43 +192,45 @@ class _passwordState extends State<password> {
           firestore.collection('USER').doc(doc_id);
       document.update({'password': cnfPassword.text});
       showDialog(
-          context: context,
-          builder: (ctx) {
-            return AlertDialog(
-              title: Center(child: Text('Auto Hire')),
-              content: Text(
-                'password updated sucessfully',
-                // style: TextStyle(color: Colors.red),
-              ),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(ctx).pop();
-                      Navigator.of(ctx).pop();
-                    },
-                    child: Text('OK'))
-              ],
-            );
-          });
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: const Center(child: Text('Auto Hire')),
+            content: const Text(
+              'password updated sucessfully',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                  Navigator.of(ctx).pop();
+                },
+                child: const Text('OK'),
+              )
+            ],
+          );
+        },
+      );
     } on FirebaseAuthException catch (e) {
       showDialog(
-          context: context,
-          builder: (ctx) {
-            return AlertDialog(
-              title: Center(child: Text('Auto Hire')),
-              content: Text(
-                '$e',
-                // style: TextStyle(color: Colors.red),
-              ),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(ctx).pop();
-                    },
-                    child: Text('OK'))
-              ],
-            );
-          });
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: const Center(child: Text('Auto Hire')),
+            content: Text(
+              '$e',
+              // style: TextStyle(color: Colors.red),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                  child: const Text('OK'))
+            ],
+          );
+        },
+      );
     }
   }
 }

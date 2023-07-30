@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 
-class tandc extends StatelessWidget {
-  //const Home({super.key});
+class Tandc extends StatelessWidget {
+  const Tandc({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
-          child: Container(
-              // width: double.infinity,
-              //height: double.infinity,
-              child: SingleChildScrollView(
+          child: SingleChildScrollView(
             child: Column(
               children: [
                 SizedBox(
@@ -100,7 +97,7 @@ class tandc extends StatelessWidget {
                 ),
               ],
             ),
-          )),
+          ),
         ));
   }
 }

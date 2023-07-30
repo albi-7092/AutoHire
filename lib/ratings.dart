@@ -1,8 +1,13 @@
+// ignore_for_file: avoid_types_as_parameter_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class rating extends StatelessWidget {
+// ignore: must_be_immutable
+class Rating extends StatelessWidget {
   double status = 3;
+
+  Rating({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,9 +17,9 @@ class rating extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
         ),
-        backgroundColor: Color(0xFF17203A),
+        backgroundColor: const Color(0xFF17203A),
         title: const Text('rate our product'),
       ),
       body: Column(
@@ -34,10 +39,10 @@ class rating extends StatelessWidget {
                 direction: Axis.horizontal,
                 allowHalfRating: true,
                 itemCount: 5,
-                itemPadding: EdgeInsets.symmetric(
+                itemPadding: const EdgeInsets.symmetric(
                   horizontal: 4.0,
                 ),
-                itemBuilder: (context, _) => Icon(
+                itemBuilder: (context, _) => const Icon(
                   Icons.star,
                   color: Colors.amber,
                 ),
@@ -52,7 +57,7 @@ class rating extends StatelessWidget {
       ),
       bottomNavigationBar: BottomAppBar(
         elevation: 0,
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -61,7 +66,7 @@ class rating extends StatelessWidget {
             height: 40,
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(30),
-                child: Center(child: Text('powered by Auto Hire'))),
+                child: const Center(child: Text('powered by Auto Hire'))),
           ),
         ),
       ),
