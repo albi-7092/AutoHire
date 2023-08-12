@@ -166,7 +166,7 @@ class _BookingsState extends State<Bookings> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: car_book_id.isEmpty
+          child: phone_no.isEmpty
               ? const Center(
                   child: CircularProgressIndicator(
                   strokeWidth: 4.0,

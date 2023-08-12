@@ -67,6 +67,7 @@ class _AccountState extends State<Account> {
                   subtitle: const Text(
                       "When enabled, you'll need to use fingerprint to open AutoHire"),
                   trailing: Switch(
+                    activeColor: Color(0xFF17203A),
                     value: enabled,
                     onChanged: (bool val) {
                       setState(
@@ -84,9 +85,12 @@ class _AccountState extends State<Account> {
                     },
                   ),
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
                 ListTile(
                   iconColor: Colors.black,
-                  leading: Icon(Icons.delete),
+                  leading: const Icon(Icons.delete),
                   title: const Text(
                     'Delete my account',
                     style: TextStyle(
@@ -105,7 +109,7 @@ class _AccountState extends State<Account> {
                 ),
                 ListTile(
                   iconColor: Colors.black,
-                  leading: Icon(Icons.password),
+                  leading: const Icon(Icons.password),
                   title: const Text(
                     'Change password',
                     style: TextStyle(
@@ -173,7 +177,7 @@ class _AccountState extends State<Account> {
       authenticated = await auth.authenticate(
         localizedReason: 'Auto Hire',
       );
-      Navigator.of(context).pop();
+      //Navigator.of(context).pop();
     } catch (e) {
       print('Error during fingerprint authentication: $e');
     }
@@ -184,6 +188,13 @@ class _AccountState extends State<Account> {
         'finger_print',
         'true',
       );
+      setState(() {
+        enabled = true;
+      });
+    } else {
+      setState(() {
+        enabled = false;
+      });
     }
   }
 
@@ -192,7 +203,7 @@ class _AccountState extends State<Account> {
       authenticated = await auth.authenticate(
         localizedReason: 'Auto Hire',
       );
-      Navigator.of(context).pop();
+      //Navigator.of(context).pop();
     } catch (e) {
       print('Error during fingerprint authentication: $e');
     }
@@ -201,8 +212,15 @@ class _AccountState extends State<Account> {
       final sh = await SharedPreferences.getInstance();
       await sh.setString(
         'finger_print',
-        'false',
+        '',
       );
+      setState(() {
+        enabled = false;
+      });
+    } else {
+      setState(() {
+        enabled = true;
+      });
     }
   }
 }

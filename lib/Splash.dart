@@ -39,7 +39,7 @@ class Splash extends StatelessWidget {
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) {
         return Login();
       }));
-    } else if (sv.isNotEmpty && fg == 'false') {
+    } else if (sv.isNotEmpty && fg != 'true') {
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) {
         return HOME();
       }));
@@ -62,7 +62,7 @@ class Splash extends StatelessWidget {
   }
 
   void start(BuildContext context) {
-    Future.delayed(const Duration(seconds: 2, microseconds: 2), () {
+    Future.delayed(const Duration(seconds: 1, microseconds: 5), () {
       goto(context);
     });
   }

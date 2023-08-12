@@ -1,7 +1,7 @@
-// ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:upi_india/upi_india.dart';
 
+// ignore: must_be_immutable
 class UPIpayment extends StatefulWidget {
   String provider_name = '', amount = '', prov_upi_id = '';
   UPIpayment(this.provider_name, this.amount, this.prov_upi_id, {super.key});
@@ -29,9 +29,9 @@ class _UPIpaymentState extends State<UPIpayment> {
 
   @override
   void initState() {
+    num = double.parse(widget.amount);
     prov_upi_id_p = widget.prov_upi_id;
     provider_name = widget.provider_name;
-    num = double.parse(widget.amount);
     _upiIndia.getAllUpiApps(mandatoryTransactionId: false).then((value) {
       setState(() {
         apps = value;
@@ -69,7 +69,7 @@ class _UPIpaymentState extends State<UPIpayment> {
       return Align(
         alignment: Alignment.topCenter,
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          //physics: BouncingScrollPhysics(),
           child: Wrap(
             children: apps!.map<Widget>((UpiApp app) {
               return GestureDetector(
@@ -116,21 +116,21 @@ class _UPIpaymentState extends State<UPIpayment> {
   //   }
   // }
 
-  void _checkTxnStatus(String status, BuildContext ctx) {
-    switch (status) {
-      case UpiPaymentStatus.SUCCESS:
-        print('Transaction Successful');
-        break;
-      case UpiPaymentStatus.SUBMITTED:
-        print('Transaction Submitted');
-        break;
-      case UpiPaymentStatus.FAILURE:
-        print('Transaction Failed');
-        break;
-      default:
-        print('Received an Unknown transaction status');
-    }
-  }
+  // void _checkTxnStatus(String status, BuildContext ctx) {
+  //   switch (status) {
+  //     case UpiPaymentStatus.SUCCESS:
+  //       print('Transaction Successful');
+  //       break;
+  //     case UpiPaymentStatus.SUBMITTED:
+  //       print('Transaction Submitted');
+  //       break;
+  //     case UpiPaymentStatus.FAILURE:
+  //       print('Transaction Failed');
+  //       break;
+  //     default:
+  //       print('Received an Unknown transaction status');
+  //   }
+  // }
 
   Widget displayTransactionData(title, body) {
     return Padding(
@@ -168,46 +168,47 @@ class _UPIpaymentState extends State<UPIpayment> {
               builder:
                   (BuildContext context, AsyncSnapshot<UpiResponse> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasError) {
-                    return Padding(
-                      padding: EdgeInsets.only(top: 100),
-                      // child: Center(
-                      //   child:
-                      //       Text(_upiErrorHandler(snapshot.error.runtimeType)),
-                      // ),
-                    );
-                  }
+                  // if (snapshot.hasError) {
+                  //   return Padding(
+                  //     padding: EdgeInsets.only(top: 100),
+                  //     child: Center(
+                  //       child:
+                  //           Text(_upiErrorHandler(snapshot.error.runtimeType)),
+                  //     ),
+                  //   );
+                  // }
 
                   // If we have data then definitely we will have UpiResponse.
                   // It cannot be null
 
-                  UpiResponse _upiResponse = snapshot.data!;
+                  // UpiResponse _upiResponse = snapshot.data!;
 
-                  // Data in UpiResponse can be null. Check before printing
-                  String txnId = _upiResponse.transactionId ?? 'N/A';
-                  String resCode = _upiResponse.responseCode ?? 'N/A';
-                  String txnRef = _upiResponse.transactionRefId ?? 'N/A';
-                  String status = _upiResponse.status ?? 'N/A';
-                  String approvalRef = _upiResponse.approvalRefNo ?? 'N/A';
-                  _checkTxnStatus(status, context);
+                  // // Data in UpiResponse can be null. Check before printing
+                  // String txnId = _upiResponse.transactionId ?? 'N/A';
+                  // String resCode = _upiResponse.responseCode ?? 'N/A';
+                  // String txnRef = _upiResponse.transactionRefId ?? 'N/A';
+                  // String status = _upiResponse.status ?? 'N/A';
+                  // String approvalRef = _upiResponse.approvalRefNo ?? 'N/A';
+                  // _checkTxnStatus(status, context);
 
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        displayTransactionData('Transaction Id', txnId),
-                        displayTransactionData('Response Code', resCode),
-                        displayTransactionData('Reference Id', txnRef),
-                        displayTransactionData('Status', status.toUpperCase()),
-                        displayTransactionData('Approval No', approvalRef),
-                      ],
-                    ),
+                  return const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    // child: Column(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: <Widget>[
+                    //     displayTransactionData('Transaction Id', txnId),
+                    //     displayTransactionData('Response Code', resCode),
+                    //     displayTransactionData('Reference Id', txnRef),
+                    //     displayTransactionData('Status', status.toUpperCase()),
+                    //     displayTransactionData('Approval No', approvalRef),
+                    //   ],
+                    // ),
                   );
-                } else
-                  return Center(
+                } else {
+                  return const Center(
                     child: Text(''),
                   );
+                }
               },
             ),
           )

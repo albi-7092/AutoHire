@@ -157,7 +157,7 @@ class _DeleteState extends State<Delete> {
                         context: context,
                         builder: (ctx) {
                           return AlertDialog(
-                            title: Center(child: Text('Auto Hire')),
+                            title: const Center(child: Text('Auto Hire')),
                             content: const Text(
                               'oops..Please check the mail id and password',
                               // style: TextStyle(color: Colors.red),

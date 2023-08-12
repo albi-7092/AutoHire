@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, non_constant_identifier_names
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +27,7 @@ class _Main_screenState extends State<Main_screen> {
   String vehicle_Number = '';
   @override
   void initState() {
-    this.car_doc_id = widget.car_id;
+    car_doc_id = widget.car_id;
     loaddata();
     super.initState();
   }
@@ -79,7 +79,7 @@ class _Main_screenState extends State<Main_screen> {
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: image_url.isEmpty
+        child: vehicle_Number.isEmpty
             ? const Center(
                 child: CircularProgressIndicator(
                   strokeWidth: 4.0,

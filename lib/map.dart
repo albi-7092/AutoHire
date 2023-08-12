@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:login/Bookings.dart';
 
 class Maps extends StatefulWidget {
   String lat, long, provider, phone_no;
@@ -36,7 +37,7 @@ class _MapsState extends State<Maps> {
       body: Stack(
         children: [
           GoogleMap(
-            mapType: MapType.hybrid,
+            mapType: MapType.normal,
             initialCameraPosition: CameraPosition(
               target: LatLng(x, y),
               zoom: 13,
@@ -59,7 +60,13 @@ class _MapsState extends State<Maps> {
               child: FloatingActionButton(
                 backgroundColor: Color(0xFF17203A),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(
+                    MaterialPageRoute(
+                      builder: (ctx) {
+                        return Bookings();
+                      },
+                    ),
+                  );
                 },
                 child: const Icon(Icons.arrow_back),
               ),

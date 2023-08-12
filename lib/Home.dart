@@ -33,12 +33,13 @@ class _HOMEState extends State<HOME> {
   String avg_km = '';
 
   String name = '';
+  String profile_img = '';
 
-  @override
-  void initState() {
-    loaddata();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   loaddata();
+  //   super.initState();
+  // }
 
   Future<void> logout() async {
     await auth.signOut();
@@ -53,9 +54,10 @@ class _HOMEState extends State<HOME> {
       (DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
           setState(() {
-            this.name = documentSnapshot.get('name');
+            name = documentSnapshot.get('name');
+            profile_img = documentSnapshot.get('profile_img_url');
           });
-          print('name :$name');
+          //print('name :$name');
         }
       },
     );
@@ -63,6 +65,7 @@ class _HOMEState extends State<HOME> {
 
   @override
   Widget build(BuildContext context) {
+    loaddata();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF17203A),
@@ -92,19 +95,23 @@ class _HOMEState extends State<HOME> {
         ],
       ),
       drawer: Drawer(
-        backgroundColor: Color(0xFF17203A),
+        backgroundColor: const Color(0xFF17203A),
         child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(top: 40),
-                    child: CircleAvatar(
-                        backgroundImage:
-                            AssetImage('images/Unknown_person.jpg'),
-                        radius: 80),
+                    child: profile_img == ''
+                        ? const CircleAvatar(
+                            backgroundImage:
+                                AssetImage('images/Unknown_person.jpg'),
+                            radius: 80)
+                        : CircleAvatar(
+                            backgroundImage: NetworkImage(profile_img),
+                            radius: 80),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10),

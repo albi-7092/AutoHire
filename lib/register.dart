@@ -47,6 +47,7 @@ class _RegisterState extends State<Register> {
       'age': age.text,
       'doc_id': '',
       'car_book_id': '',
+      'profile_img_url': '',
       'status': '',
     };
     try {
@@ -61,9 +62,9 @@ class _RegisterState extends State<Register> {
       );
       final DocumentReference document = firestore.collection('USER').doc(doc);
       document.update({'doc_id': doc});
+      register_save();
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (ctx) => HOME()), (route) => false);
-      register_save();
     } on Exception catch (e) {
       showDialog(
         context: context,
