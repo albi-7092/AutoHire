@@ -118,8 +118,11 @@ class _ProfileState extends State<Profile> {
       setState(() {
         loading = false;
       });
-      Navigator.of(context).pop();
+      // Navigator.of(context).pop();
     } on Exception catch (e) {
+      setState(() {
+        loading = false;
+      });
       print('failed $e');
       showDialog(
         context: context,
@@ -180,135 +183,119 @@ class _ProfileState extends State<Profile> {
         title: const Text('Profile'),
       ),
       body: SafeArea(
-        child: loading == true
-            ? Padding(
-                padding: const EdgeInsets.only(top: 150, left: 80),
-                child: Row(
-                  children: [
-                    Column(
-                      children: [
-                        CircularProgressIndicator(),
-                        Text('uploading please wait for a momment')
-                      ],
-                    ),
-                  ],
-                ),
-              )
-            : Padding(
-                padding: const EdgeInsets.only(top: 50.0, left: 20, right: 20),
-                child: name.isEmpty
-                    ? const Center(
-                        child: CircularProgressIndicator(
-                          strokeWidth: 4.0,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 50.0, left: 20, right: 20),
+          child: name.isEmpty
+              ? const Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 4.0,
+                  ),
+                )
+              : SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10, left: 25),
+                        child: Stack(children: [
+                          imgurl.isEmpty && fileimage == null
+                              ? const CircleAvatar(
+                                  radius: 75,
+                                  backgroundImage: AssetImage(
+                                    'images/Unknown_person.jpg',
+                                  ),
+                                )
+                              : fileimage == null
+                                  ? CircleAvatar(
+                                      radius: 75,
+                                      backgroundImage: NetworkImage(
+                                        imgurl,
+                                      ),
+                                    )
+                                  : CircleAvatar(
+                                      radius: 75,
+                                      backgroundImage: FileImage(
+                                        fileimage!,
+                                      ),
+                                    ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 130, top: 120),
+                            child: IconButton(
+                                onPressed: () {
+                                  pickImage();
+                                },
+                                icon: const Icon(Icons.edit)),
+                          )
+                        ]),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          name,
+                          style: const TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold),
                         ),
-                      )
-                    : SingleChildScrollView(
+                      ),
+                      Form(
+                        key: _formkey,
                         child: Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(top: 10, left: 25),
-                              child: Stack(children: [
-                                imgurl.isEmpty && fileimage == null
-                                    ? const CircleAvatar(
-                                        radius: 75,
-                                        backgroundImage: AssetImage(
-                                          'images/Unknown_person.jpg',
-                                        ),
-                                      )
-                                    : fileimage == null
-                                        ? CircleAvatar(
-                                            radius: 75,
-                                            backgroundImage: NetworkImage(
-                                              imgurl,
-                                            ),
-                                          )
-                                        : CircleAvatar(
-                                            radius: 75,
-                                            backgroundImage: FileImage(
-                                              fileimage!,
-                                            ),
-                                          ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 130, top: 120),
-                                  child: IconButton(
-                                      onPressed: () {
-                                        pickImage();
-                                      },
-                                      icon: const Icon(Icons.edit)),
-                                )
-                              ]),
+                              padding: const EdgeInsets.only(
+                                  left: 5, right: 5, top: 30),
+                              child: TextFormField(
+                                controller: user_name_field,
+                                decoration: InputDecoration(
+                                    labelText: 'user name :',
+                                    hintText: user_name,
+                                    prefixIcon: const Icon(Icons.person)),
+                              ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                name,
-                                style: const TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.bold),
+                              padding: const EdgeInsets.only(
+                                  left: 5, right: 5, top: 15),
+                              child: TextFormField(
+                                controller: name_field,
+                                decoration: InputDecoration(
+                                    labelText: 'Name :',
+                                    hintText: name,
+                                    prefixIcon: const Icon(Icons.person)),
                               ),
                             ),
-                            Form(
-                              key: _formkey,
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 5, right: 5, top: 30),
-                                    child: TextFormField(
-                                      controller: user_name_field,
-                                      decoration: InputDecoration(
-                                          labelText: 'user name :',
-                                          hintText: user_name,
-                                          prefixIcon: const Icon(Icons.person)),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 5, right: 5, top: 15),
-                                    child: TextFormField(
-                                      controller: name_field,
-                                      decoration: InputDecoration(
-                                          labelText: 'Name :',
-                                          hintText: name,
-                                          prefixIcon: const Icon(Icons.person)),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 5, right: 5, top: 15),
-                                    child: TextFormField(
-                                      controller: liscence_no_field,
-                                      decoration: InputDecoration(
-                                          labelText: 'Liscence No :',
-                                          hintText: Dl_nos,
-                                          prefixIcon:
-                                              const Icon(Icons.drive_eta)),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 5, right: 5, top: 15),
-                                    child: TextFormField(
-                                      controller: age_field,
-                                      keyboardType: TextInputType.emailAddress,
-                                      decoration: InputDecoration(
-                                          labelText: 'age :',
-                                          hintText: age,
-                                          prefixIcon:
-                                              const Icon(Icons.calendar_month)),
-                                    ),
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.all(10),
-                                    child: Text('Powered by Auto Hire'),
-                                  )
-                                ],
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 5, right: 5, top: 15),
+                              child: TextFormField(
+                                controller: liscence_no_field,
+                                decoration: InputDecoration(
+                                    labelText: 'Liscence No :',
+                                    hintText: Dl_nos,
+                                    prefixIcon: const Icon(Icons.drive_eta)),
                               ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 5, right: 5, top: 15),
+                              child: TextFormField(
+                                controller: age_field,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: InputDecoration(
+                                    labelText: 'age :',
+                                    hintText: age,
+                                    prefixIcon:
+                                        const Icon(Icons.calendar_month)),
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text('Powered by Auto Hire'),
                             )
                           ],
                         ),
-                      ),
-              ),
+                      )
+                    ],
+                  ),
+                ),
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         elevation: 0,
@@ -326,10 +313,15 @@ class _ProfileState extends State<Profile> {
                   backgroundColor: const Color(0xFF17203A),
                 ),
                 onPressed: () {
-                  update();
-                  print(document_id);
+                  if (loading == false) {
+                    update();
+                  }
                 },
-                child: loading == false ? Text('Update') : Text('Updating'),
+                child: loading == false
+                    ? Text('Update')
+                    : CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
               ),
             ),
           ),

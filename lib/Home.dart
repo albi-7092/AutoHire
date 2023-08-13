@@ -31,7 +31,7 @@ class _HOMEState extends State<HOME> {
   String car_document_id = '';
   String car_name = '';
   String avg_km = '';
-
+  bool status = false;
   String name = '';
   String profile_img = '';
 
@@ -266,6 +266,7 @@ class _HOMEState extends State<HOME> {
                   image_url = providersnap['image_url'];
                   car_name = providersnap['model_no'];
                   avg_km = providersnap['km'];
+                  status = providersnap['current_status'];
                   return InkWell(
                     child: Padding(
                       padding: const EdgeInsets.all(10),
@@ -318,15 +319,36 @@ class _HOMEState extends State<HOME> {
                     ),
                     onTap: () {
                       print(providersnap['doc_id']);
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
+                      if (providersnap['current_status'] == false) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (ctx) {
+                              return Main_screen(
+                                providersnap['doc_id'],
+                              );
+                            },
+                          ),
+                        );
+                      } else {
+                        showDialog(
+                          context: context,
                           builder: (ctx) {
-                            return Main_screen(
-                              providersnap['doc_id'],
+                            return AlertDialog(
+                              title: const Center(child: Text('Auto Hire')),
+                              content: const Text(
+                                'sorry, this car is not available',
+                              ),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.of(ctx).pop();
+                                    },
+                                    child: const Text('OK'))
+                              ],
                             );
                           },
-                        ),
-                      );
+                        );
+                      }
                     },
                   );
                 },

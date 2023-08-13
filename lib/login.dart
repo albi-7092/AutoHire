@@ -20,8 +20,12 @@ class _LoginState extends State<Login> {
   FirebaseAuth auth = FirebaseAuth.instance;
   String dox = '';
   var stat;
+  bool load = false;
 
   Future<void> SighnIn(BuildContext context) async {
+    setState(() {
+      load = true;
+    });
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(
@@ -41,12 +45,14 @@ class _LoginState extends State<Login> {
       // ignore: unnecessary_null_comparison
       if (dox != '' || dox != null) {
         login_Save();
-
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) {
           return HOME();
         }));
       }
     } on FirebaseAuthException catch (e) {
+      setState(() {
+        load = false;
+      });
       if (e.code == 'user-not-found') {
         print('user not found');
         showDialog(
@@ -69,6 +75,9 @@ class _LoginState extends State<Login> {
           },
         );
       } else if (e.code == 'wrong-password') {
+        setState(() {
+          load = false;
+        });
         print('wrong password');
         showDialog(
           context: context,
@@ -89,6 +98,9 @@ class _LoginState extends State<Login> {
           },
         ); //SHOW
       } else {
+        setState(() {
+          load = false;
+        });
         print('invalid email id');
         showDialog(
           context: context,
@@ -125,117 +137,121 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          color: Colors.white,
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formkey,
-              child: Center(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 25),
-                      child: SizedBox(
-                          width: 450,
-                          height: 250,
-                          child: Image.asset("images/logo.jpeg")),
+          child: Container(
+        width: double.infinity,
+        height: double.infinity,
+        color: Colors.white,
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formkey,
+            child: Center(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 25),
+                    child: SizedBox(
+                        width: 450,
+                        height: 250,
+                        child: Image.asset("images/logo.jpeg")),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 10, right: 10, top: 15),
+                    child: TextFormField(
+                      controller: email,
+                      decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.email), hintText: "Email id"),
+                      validator: (value) {
+                        if (value == '') {
+                          return 'Enter a valid email id';
+                        } else {
+                          return null;
+                        }
+                      },
                     ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 10, right: 10, top: 15),
-                      child: TextFormField(
-                        controller: email,
-                        decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.email),
-                            hintText: "Email id"),
-                        validator: (value) {
-                          if (value == '') {
-                            return 'Enter a valid email id';
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 10, top: 10, right: 10),
+                    child: TextFormField(
+                      controller: password,
+                      obscureText: stat,
+                      decoration: InputDecoration(
+                          suffixIcon: stat
+                              ? IconButton(
+                                  onPressed: () {
+                                    setState(
+                                      () {
+                                        stat = false;
+                                      },
+                                    );
+                                  },
+                                  icon: const Icon(Icons.visibility_off))
+                              : IconButton(
+                                  onPressed: () {
+                                    setState(
+                                      () {
+                                        stat = true;
+                                      },
+                                    );
+                                  },
+                                  icon: const Icon(Icons.visibility)),
+                          prefixIcon: const Icon(Icons.security),
+                          hintText: "password"),
+                      validator: (value) {
+                        if (value == '') {
+                          return 'Enter a valid password';
+                        } else {
+                          return null;
+                        }
+                      },
                     ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 10, top: 10, right: 10),
-                      child: TextFormField(
-                        controller: password,
-                        obscureText: stat,
-                        decoration: InputDecoration(
-                            suffixIcon: stat
-                                ? IconButton(
-                                    onPressed: () {
-                                      setState(
-                                        () {
-                                          stat = false;
-                                        },
-                                      );
-                                    },
-                                    icon: const Icon(Icons.visibility_off))
-                                : IconButton(
-                                    onPressed: () {
-                                      setState(
-                                        () {
-                                          stat = true;
-                                        },
-                                      );
-                                    },
-                                    icon: const Icon(Icons.visibility)),
-                            prefixIcon: const Icon(Icons.security),
-                            hintText: "password"),
-                        validator: (value) {
-                          if (value == '') {
-                            return 'Enter a valid password';
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(top: 20, left: 10, right: 10),
-                      child: SizedBox(
-                        width: 360,
-                        height: 40,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF17203A)),
-                          onPressed: () {
-                            if (_formkey.currentState!.validate()) {
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 20, left: 10, right: 10),
+                    child: SizedBox(
+                      width: 360,
+                      height: 40,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF17203A)),
+                        onPressed: () {
+                          if (_formkey.currentState!.validate()) {
+                            if (load == false) {
                               SighnIn(context);
                             }
-                          },
-                          child: const Text("Login"),
-                        ),
+                          }
+                        },
+                        child: load == false
+                            ? Text("Login")
+                            : CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 25),
-                      child: Column(
-                        children: [
-                          const Text("Forgot your login details?"),
-                          TextButton(
-                            onPressed: () {},
-                            child: const Text(
-                              "Get help",
-                              style: TextStyle(color: Color(0xFF17203A)),
-                            ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 25),
+                    child: Column(
+                      children: [
+                        const Text("Forgot your login details?"),
+                        TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            "Get help",
+                            style: TextStyle(color: Color(0xFF17203A)),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
         ),
-      ),
+      )),
       bottomNavigationBar: BottomAppBar(
         elevation: 0,
         color: Colors.white,

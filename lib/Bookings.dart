@@ -137,6 +137,9 @@ class _BookingsState extends State<Bookings> {
       'car_book_id': '',
       'status': '',
     });
+    final DocumentReference carReference =
+        firestore.collection('PROVIDER').doc(car_book_id);
+    carReference.update({'current_status': false});
   }
 
   @override

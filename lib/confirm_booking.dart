@@ -44,6 +44,14 @@ class _Confirm_bookingState extends State<Confirm_booking> {
     );
   }
 
+  Future<void> book() async {
+    final DocumentReference document =
+        firestore.collection('PROVIDER').doc(car_doc_id);
+    document.update({
+      'current_status': true,
+    });
+  }
+
   Future<void> cnfbooking() async {
     try {
       final sh = await SharedPreferences.getInstance();
@@ -53,6 +61,7 @@ class _Confirm_bookingState extends State<Confirm_booking> {
       final DocumentReference document =
           firestore.collection('USER').doc(userDocId);
       document.update({'car_book_id': car_doc_id, 'status': 'pending'});
+      book();
       showDialog(
         context: context,
         builder: (ctx) {

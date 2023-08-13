@@ -16,6 +16,7 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  bool load = false;
   bool stat = true;
   TextEditingController Name = TextEditingController();
 
@@ -38,6 +39,9 @@ class _RegisterState extends State<Register> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Future<void> add_user(BuildContext context) async {
+    setState(() {
+      load = true;
+    });
     final data = {
       'name': Name.text,
       'user_name': user_Name.text,
@@ -65,7 +69,13 @@ class _RegisterState extends State<Register> {
       register_save();
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (ctx) => HOME()), (route) => false);
+      setState(() {
+        load = false;
+      });
     } on Exception catch (e) {
+      setState(() {
+        load = false;
+      });
       showDialog(
         context: context,
         builder: (ctx) {
@@ -95,235 +105,235 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          color: Colors.white,
-          width: double.infinity,
-          height: double.infinity,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 10, top: 20),
-                      child: Row(
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                'Here to Get',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 30,
-                                    color: Colors.black),
-                                textAlign: TextAlign.center,
-                              ),
-                              Text(
-                                'Welcomed !',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 30,
-                                    color: Colors.black),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, top: 25, right: 10),
-                  child: Form(
-                    key: _formkey,
-                    child: Column(
+          child: Container(
+        color: Colors.white,
+        width: double.infinity,
+        height: double.infinity,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 10, top: 20),
+                    child: Row(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 10, right: 10, top: 15),
-                          child: TextFormField(
-                            decoration: const InputDecoration(
-                                suffixIcon: Icon(Icons.person),
-                                hintText: 'Name *'),
-                            controller: Name,
-                            validator: (value) {
-                              if (value == '') {
-                                return 'This field is mandatory';
-                              } else {
-                                return null;
-                              }
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 10, right: 10, top: 15),
-                          child: TextFormField(
-                            decoration: const InputDecoration(
-                                suffixIcon: Icon(Icons.person),
-                                hintText: 'User name*'),
-                            controller: user_Name,
-                            validator: (value) {
-                              if (value == '') {
-                                return 'This field is mandatory';
-                              } else {
-                                return null;
-                              }
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 10, right: 10, top: 15),
-                          child: TextFormField(
-                            decoration: const InputDecoration(
-                                labelText: 'email id',
-                                suffixIcon: Icon(Icons.email)),
-                            controller: email,
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (value) {
-                              if (value == '') {
-                                return 'This field is mandatory';
-                              } else {
-                                return null;
-                              }
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 10, right: 10, top: 15),
-                          child: TextFormField(
-                            decoration: const InputDecoration(
-                                suffixIcon: Icon(Icons.info),
-                                hintText: 'Age *'),
-                            controller: age,
-                            keyboardType: TextInputType.number,
-                            validator: (value) {
-                              AGE = age.text;
-                              if (value == '') {
-                                return 'This field is mandatory';
-                              } else if (int.parse(AGE) < 17 ||
-                                  int.parse(AGE) > 90) {
-                                return 'age is restricted';
-                              } else {
-                                return null;
-                              }
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 10, right: 10, top: 15),
-                          child: TextFormField(
-                            obscureText: false,
-                            validator: (value) {
-                              if (value == '') {
-                                return 'password * is mandatory';
-                              } else if (value!.length < 8) {
-                                return 'password should be greater than 8 letters';
-                              } else {
-                                return null;
-                              }
-                            },
-                            decoration: const InputDecoration(
-                                suffixIcon: Icon(Icons.security),
-                                labelText: 'password'),
-                            controller: password,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 10, right: 10, top: 15),
-                          child: TextFormField(
-                            obscureText: stat,
-                            decoration: InputDecoration(
-                                suffixIcon: stat == true
-                                    ? IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            stat = false;
-                                          });
-                                        },
-                                        icon: const Icon(Icons.visibility_off))
-                                    : IconButton(
-                                        onPressed: () {
-                                          setState(
-                                            () {
-                                              stat = true;
-                                            },
-                                          );
-                                        },
-                                        icon: const Icon(Icons.visibility),
-                                      ),
-                                labelText: 'Re-type password'),
-                            controller: passwordconfirm,
-                            validator: (value) {
-                              if (value == '') {
-                                return 'password * is mandatory';
-                              } else if (value!.length < 8) {
-                                return 'password should be greater than 8 letters';
-                              } else {
-                                if (value != password.text) {
-                                  return 'password * should be same';
-                                } else {
-                                  return null;
-                                }
-                              }
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 10, right: 10, top: 15),
-                          child: TextFormField(
-                            validator: (value) {
-                              if (value == '') {
-                                return 'Field is required';
-                              } else {
-                                return null;
-                              }
-                            },
-                            decoration: const InputDecoration(
-                                suffixIcon: Icon(Icons.drive_eta),
-                                hintText: 'Lisense.No '),
-                            controller: DL_No,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 10, left: 10, right: 10),
-                          child: SizedBox(
-                            width: 360,
-                            height: 40,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFF17203A)),
-                              onPressed: () {
-                                if (_formkey.currentState!.validate()) {
-                                  add_user(context);
-                                } else {
-                                  //else
-                                }
-                              },
-                              child: const Text('Register'),
+                        Column(
+                          children: [
+                            Text(
+                              'Here to Get',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 30,
+                                  color: Colors.black),
+                              textAlign: TextAlign.center,
                             ),
-                          ),
+                            Text(
+                              'Welcomed !',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 30,
+                                  color: Colors.black),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10, top: 25, right: 10),
+                child: Form(
+                  key: _formkey,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 10, right: 10, top: 15),
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                              suffixIcon: Icon(Icons.person),
+                              hintText: 'Name *'),
+                          controller: Name,
+                          validator: (value) {
+                            if (value == '') {
+                              return 'This field is mandatory';
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 10, right: 10, top: 15),
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                              suffixIcon: Icon(Icons.person),
+                              hintText: 'User name*'),
+                          controller: user_Name,
+                          validator: (value) {
+                            if (value == '') {
+                              return 'This field is mandatory';
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 10, right: 10, top: 15),
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                              labelText: 'email id',
+                              suffixIcon: Icon(Icons.email)),
+                          controller: email,
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value == '') {
+                              return 'This field is mandatory';
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 10, right: 10, top: 15),
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                              suffixIcon: Icon(Icons.info), hintText: 'Age *'),
+                          controller: age,
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            AGE = age.text;
+                            if (value == '') {
+                              return 'This field is mandatory';
+                            } else if (int.parse(AGE) < 17 ||
+                                int.parse(AGE) > 90) {
+                              return 'age is restricted';
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 10, right: 10, top: 15),
+                        child: TextFormField(
+                          obscureText: false,
+                          validator: (value) {
+                            if (value == '') {
+                              return 'password * is mandatory';
+                            } else if (value!.length < 8) {
+                              return 'password should be greater than 8 letters';
+                            } else {
+                              return null;
+                            }
+                          },
+                          decoration: const InputDecoration(
+                              suffixIcon: Icon(Icons.security),
+                              labelText: 'password'),
+                          controller: password,
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 10, right: 10, top: 15),
+                        child: TextFormField(
+                          obscureText: stat,
+                          decoration: InputDecoration(
+                              suffixIcon: stat == true
+                                  ? IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          stat = false;
+                                        });
+                                      },
+                                      icon: const Icon(Icons.visibility_off))
+                                  : IconButton(
+                                      onPressed: () {
+                                        setState(
+                                          () {
+                                            stat = true;
+                                          },
+                                        );
+                                      },
+                                      icon: const Icon(Icons.visibility),
+                                    ),
+                              labelText: 'Re-type password'),
+                          controller: passwordconfirm,
+                          validator: (value) {
+                            if (value == '') {
+                              return 'password * is mandatory';
+                            } else if (value!.length < 8) {
+                              return 'password should be greater than 8 letters';
+                            } else {
+                              if (value != password.text) {
+                                return 'password * should be same';
+                              } else {
+                                return null;
+                              }
+                            }
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 10, right: 10, top: 15),
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value == '') {
+                              return 'Field is required';
+                            } else {
+                              return null;
+                            }
+                          },
+                          decoration: const InputDecoration(
+                              suffixIcon: Icon(Icons.drive_eta),
+                              hintText: 'Lisense.No '),
+                          controller: DL_No,
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(top: 10, left: 10, right: 10),
+                        child: SizedBox(
+                          width: 360,
+                          height: 40,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF17203A)),
+                            onPressed: () {
+                              if (_formkey.currentState!.validate()) {
+                                if (load == false) {
+                                  add_user(context);
+                                }
+                              }
+                            },
+                            child: load == false
+                                ? Text('Register')
+                                : CircularProgressIndicator(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 35, bottom: 10),
-                  child: Text('Already Registered ?'),
-                ),
-              ],
-            ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(top: 35, bottom: 10),
+                child: Text('Already Registered ?'),
+              ),
+            ],
           ),
         ),
-      ),
+      )),
       bottomNavigationBar: BottomAppBar(
         elevation: 0,
         color: Colors.white,
